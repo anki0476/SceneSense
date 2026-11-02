@@ -1,0 +1,6 @@
+const {parseEnv}=require('node:util');
+const fs=require('node:fs'),path=require('node:path');
+function config(){let local={};try{local=parseEnv(fs.readFileSync(path.join(__dirname,'..','.env'),'utf8'));}catch{}const url=process.env.SCENESENSE_PROXY_URL||local.SCENESENSE_PROXY_URL;const code=process.env.SCENESENSE_JUDGE_CODE||local.SCENESENSE_JUDGE_CODE;if(!url||!code)return null;const base=new URL(url);if(base.protocol!=='https:'&&base.hostname!=='127.0.0.1')throw Error('Proxy must use HTTPS.');return {base,code};}
+async function proxyFetch(url,options={}){const c=config();if(!c)return fetch(url,options);const u=new URL(url);if(u.origin!=='https://api.openai.com')throw Error('Unsupported proxy destination');return fetch(new URL('/openai'+u.pathname+u.search,c.base),{...options,headers:{'Content-Type':'application/json',Authorization:'Bearer '+c.code}});}
+function socketConfig(transport,provider){const c=config();if(!c)return transport;const u=new URL(transport.url),target=new URL('/'+provider+u.pathname+u.search,c.base);target.protocol=c.base.protocol==='https:'?'wss:':'ws:';return {...transport,url:target.href,headers:{Authorization:'Bearer '+c.code}};}
+module.exports={config,proxyFetch,socketConfig};

@@ -22,7 +22,7 @@ function parseVision(body,sample){
   const reason=blockedProbability<.7?'uncertain-obstruction':categoryConfidence<.8||obstruction==='none'?'uncertain-category':safe.length===0?'no-safe-corner':'suggestion';
   return {placement:sample.placements?.[position],requiresApproval:blockedProbability<.9||(!!sample.placements?.[position]&&(!corners.includes(position.replace(/-(75|60)$/,''))||(sample.placements[position].scale!==1&&!sample.allowShrinking))),reason,categoryConfidence,position,obstruction,blockedProbability,confidence:position==='keep'?0:1-risks[position],risks,actionable:position!=='keep'};
 }
-async function inspectLayout(key,sample,signal,fetcher=fetch){
+async function inspectLayout(key,sample,signal,fetcher=require('./judge-proxy.cjs').proxyFetch){
   const subset=names=>({...sample,rects:{...sample.rects,candidates:Object.fromEntries(names.map(n=>[n,sample.rects.candidates[n]]))},crops:Object.fromEntries(['current',...names].map(n=>[n,sample.crops?.[n]]))});
   async function ask(part){
     const images=[part.image,...Object.values(part.crops||{}).filter(Boolean)];

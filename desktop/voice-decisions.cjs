@@ -66,7 +66,7 @@ function parseDecision(body,transcript='') {
 async function decide(key, transcript, signal, fetcher) {
   return decideWithAPI(key,transcript,signal,fetcher);
 }
-async function decideWithAPI(key,transcript,signal,fetcher=fetch,options={}){
+async function decideWithAPI(key,transcript,signal,fetcher=require('./judge-proxy.cjs').proxyFetch,options={}){
   if(explicitRepairPlan(transcript))return {position:'keep',size:'keep',control:'none',appAction:'supervisor_repair_many'};
   const sourceRepair=explicitSourceRepair(transcript);
   if(sourceRepair)return {position:'keep',size:'keep',control:'none',appAction:sourceRepair};

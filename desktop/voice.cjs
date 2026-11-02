@@ -40,6 +40,7 @@ class VoiceService {
       this.pendingApp=null;this.state.appAction=null;
       this.plan={position:'keep',size:'keep'};this.signature='';this.applied=false;this.terminal=false;this.text='';this.itemId=null;this.processing=false;this.processed='';
       this.transport=transcriptionConfig(this.provider||'openai',this.provider==='sarvam'?this.sarvamKey:this.key,this.language);
+      this.transport=require('./judge-proxy.cjs').socketConfig(this.transport,this.provider||'openai');
       const socket=new this.Socket(this.transport.url,{headers:this.transport.headers});this.socket=socket;
       await new Promise((resolve,reject)=>{
         const timer=setTimeout(()=>reject(new Error('Transcription connection timed out.')),10000);

@@ -1,0 +1,14 @@
+{
+  "name": "scenesense-judge-proxy",
+  "private": true,
+  "version": "0.1.0",
+  "scripts": {
+    "start": "node server.cjs"
+  },
+  "engines": {
+    "node": ">=22.12"
+  },
+  "dependencies": {
+    "ws": "^8.18.3"
+  }
+}

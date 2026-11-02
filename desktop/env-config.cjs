@@ -2,7 +2,8 @@ const fs=require('node:fs');
 const {parseEnv}=require('node:util');
 function parseVoiceEnv(source){
   const env=parseEnv(source);
-  const openaiKey=(env.OPENAI_API_KEY||'').trim(),sarvamKey=(env.SARVAM_API_KEY||'').trim();
+  const proxy=!!(env.SCENESENSE_PROXY_URL&&env.SCENESENSE_JUDGE_CODE);
+  const openaiKey=proxy?'sk-judge-proxy-placeholder-only':(env.OPENAI_API_KEY||'').trim(),sarvamKey=proxy?'judge-proxy-placeholder':(env.SARVAM_API_KEY||'').trim();
   if(!openaiKey)return null;
   const requested=(env.VOICE_PROVIDER||'auto').trim();
   if(!['auto','openai','sarvam'].includes(requested))throw new Error('Invalid voice provider.');

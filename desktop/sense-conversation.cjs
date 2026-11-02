@@ -1,7 +1,7 @@
 const {bubbleSummary}=require('./reply-summary.cjs');
 const {isNewsRequest,extractNews}=require('./news.cjs');
 class SenseConversation {
- constructor({getKey,publish,showReply,clearReply,fetcher=fetch}){Object.assign(this,{getKey,publish,showReply,clearReply,fetcher});this.enabled=false;this.history=[];this.sequence=0;this.lastNews=false;}
+ constructor({getKey,publish,showReply,clearReply,fetcher=require('./judge-proxy.cjs').proxyFetch}){Object.assign(this,{getKey,publish,showReply,clearReply,fetcher});this.enabled=false;this.history=[];this.sequence=0;this.lastNews=false;}
  setEnabled(enabled){if(typeof enabled!=='boolean')throw new Error('Invalid conversation setting.');this.enabled=enabled;this.sequence++;this.abort?.abort();if(!enabled){this.lastNews=false;this.history=[];this.clearReply?.();}this.publish({kind:'sense-reply',status:'idle',text:''});}
  interrupt(){this.sequence++;this.abort?.abort();this.clearReply?.();this.publish({kind:'sense-reply',status:'idle',text:''});}
  announce(text){this.sequence++;this.abort?.abort();this.publish({kind:'sense-reply',status:'ready',text,news:false});this.showReply?.(text);}
