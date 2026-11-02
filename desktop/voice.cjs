@@ -89,7 +89,8 @@ class VoiceService {
     if(this.state.latched){clearTimeout(this.debounce);this.debounce=null;this.queue(epoch,650);}else this.queue(epoch);
   }
   async drain(epoch){
-    if(epoch!==this.epoch || this.processing || !this.text.trim() || this.text===this.processed)return;
+    if(epoch!==this.epoch || this.processing || this.text===this.processed)return;
+    if(!this.text.trim()){this.processed=this.text;return;}
     if(this.terminal){this.processed=this.text;this.state.decisionStatus='Control completed. Release to finish.';this.emit();return;}
     this.processing=true;this.superseded=false;const text=this.text;this.inflightText=text;
     this.state.decisionStatus='OpenAI Decisions is interpreting your speech…';this.emit();
@@ -163,10 +164,10 @@ class VoiceService {
     const epoch=this.epoch;this.state.status='finishing';this.emit();clearTimeout(this.limit);
     if(this.audioBytes< this.state.sampleRate*.2){this.cancel();return;}
     this.socket.send(JSON.stringify(this.transport.finish));
-    const until=Date.now()+12000;
+    const until=Date.now()+20000;
     while(epoch===this.epoch && Date.now()<until && (!this.final || this.processing || this.text!==this.processed))await new Promise(resolve=>setTimeout(resolve,30));
     if(epoch!==this.epoch)return;
-    if(!this.final || this.processing || this.text!==this.processed){this.fail('The final transcript or decision did not arrive in time. Please retry.',epoch);return;}
+    if(!this.final || this.processing || this.text!==this.processed){this.fail(!this.final?'Transcription did not finish. Check your connection and provider credits, then retry.':'Voice interpretation did not finish. Please retry.',epoch);return;}
     if(this.applied)this.undo=this.checkpoint;
     const spoken=this.text,completed=this.applied?this.state.action:null;
     const appAction=this.pendingApp;this.pendingApp=null;this.cancel();
