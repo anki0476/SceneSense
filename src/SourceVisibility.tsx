@@ -1,0 +1,12 @@
+import {useEffect,useRef,useState} from 'react';
+type Source={id:number;name:string;visible:boolean};
+export function SourceVisibility({ready,call}:{ready:boolean;call:(channel:string,input?:unknown)=>Promise<any>}){
+ const [sources,setSources]=useState<Source[]>([]),[busy,setBusy]=useState(false),[error,setError]=useState('');
+ const scene=useRef('');const invoke=useRef(call);invoke.current=call;const changing=useRef(false),epoch=useRef(0);
+ useEffect(()=>{const id=++epoch.current;let reading=false;setSources([]);setError('');
+  async function refresh(){if(!ready||!window.scenesense||reading||changing.current)return;reading=true;try{const result=await invoke.current('obs:visibility:read');if(epoch.current===id){scene.current=result.scene;setSources(result.sources);setError('');}}catch(e){if(epoch.current===id){setSources([]);setError(e instanceof Error?e.message:'Could not read visibility.');}}finally{reading=false;}}
+  void refresh();const timer=setInterval(()=>void refresh(),2000);const off=window.scenesense?.subscribe(e=>{if(e.kind==='obs')void refresh();});return()=>{epoch.current++;clearInterval(timer);off?.();};
+ },[ready]);
+ async function change(source:Source){if(changing.current)return;const id=epoch.current;changing.current=true;setBusy(true);setError('');try{const result=await invoke.current('obs:visibility:set',{scene:scene.current,id:source.id,name:source.name,visible:!source.visible});if(id===epoch.current)scene.current=result.scene;setSources(result.sources);}catch(e){if(id===epoch.current)setError(e instanceof Error?e.message:'Could not change visibility.');}finally{changing.current=false;setBusy(false);}}
+ return <div className="source-visibility"><h3>Source visibility</h3>{sources.map(source=>{const label=source.name;return <div className="source-visibility-row" key={source.id}><span>{label}<small>{source?(source.visible?'Visible':'Hidden'):ready?'Confirm sources first':'Connect OBS first'}</small></span><button type="button" disabled={!source||busy||!ready} title={`${source?.visible?'Hide':'Show'} ${label}`} aria-label={`${source?.visible?'Hide':'Show'} ${label}`} onClick={()=>source&&void change(source)}><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12Z"/><circle cx="12" cy="12" r="3"/>{!source?.visible&&<path d="M3 3l18 18"/>}</svg></button></div>;})}{error&&<p role="status" className="control-note">{error}</p>}</div>;
+}

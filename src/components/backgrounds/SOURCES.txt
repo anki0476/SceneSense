@@ -1,0 +1,13 @@
+SceneSense background catalog sources
+
+AeroShards, GradientWaves, MagicRings and Topography were integrated from the full React Bits component source supplied by the user.
+GradientASCII was fetched from https://reactbits.dev/r/GradientASCII-JS-CSS.json.
+Original Topographic Flow source: https://reactdrops.dev/r/topographic-flow.json (license retained separately).
+
+Integration adaptations:
+- AeroShards pins vgpu 0.4.1 for the supplied raw-WGSL/surface API.
+- AeroShards and Topography allow click effects with mouseInteraction disabled.
+- Topography focus remains stationary when mouseInteraction is disabled.
+- Configurations disable hover effects, parallax and cursor-following.
+- GPU pixel ratios are capped at 1.25; only one selected background mounts.
+- The catalog thumbnails are static, not additional running canvases.

@@ -1,0 +1,5 @@
+const test=require('node:test'),assert=require('node:assert/strict');
+const {gameFromSpeech,profileSchema}=require('../desktop/game-profile.cjs');
+const {decideWithAPI}=require('../desktop/voice-decisions.cjs');
+test('named game requests route to profiles without an API classification',async()=>{for(const name of ['Forza Horizon 5','VALORANT','Minecraft']){const text=`Sense, set up everything for a ${name} stream.`;assert.equal(gameFromSpeech(text),name);assert.equal((await decideWithAPI('sk-test',text,undefined,()=>{throw Error('Should not call API');},{experimental:true})).appAction,'setup_game');}assert.equal(gameFromSpeech('How do I set up a Minecraft stream?'),null);assert.equal(gameFromSpeech('Do not prepare a Forza stream'),null);});
+test('profiles require concrete game, process and existing OBS source names',()=>{assert.throws(()=>profileSchema.parse({gameName:'Minecraft'}));assert.throws(()=>profileSchema.parse({gameName:'Game',processName:'game; evil',scene:'Test',webcamSource:'Cam',gameSource:'Game'}));});

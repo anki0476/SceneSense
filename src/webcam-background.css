@@ -1,0 +1,6 @@
+.webcam-background{border-top:1px solid var(--color-rule);margin-top:22px;padding-top:20px;text-align:left}
+.background-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:12px}.background-heading h3{font-size:14px;margin:0}
+.background-modes{display:flex;gap:8px;flex-wrap:wrap}.background-modes button{font-size:12px;padding:10px 13px}
+.background-modes button[aria-pressed=true]{background:var(--color-accent-soft);border-color:var(--color-accent);color:var(--color-brand)}
+.webcam-background .background-status{font-size:12px;line-height:1.5;margin:12px 0;color:var(--color-ink-2)}
+.webcam-background details{font-size:12px;line-height:1.6;color:var(--color-ink-2);margin-top:12px}.webcam-background details p{font-size:12px;margin:8px 0}.webcam-background>button.text-button{font-size:12px}

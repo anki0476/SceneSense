@@ -1,0 +1,4 @@
+import {ChromaticButton} from './components/chromatic-button';
+export function OfflinePreview({onConnect}:{onConnect:()=>void}){
+  return <div className="offline-preview"><div className="offline-preview-copy"><span className="offline-label">OBS disconnected</span><h3>Your stream belongs here.</h3><ChromaticButton color="#b126ff" colorMode="spectrum" speed={0.7} paused={false} phase={0} feather={100} projectionScale={174.7} intensity={1.4} grain={0.105} seed={7} borderRadius={50} hoverEffect="spotlight" entrance="blur-up" entranceSpeed={1} entranceBlur={10} entranceDistance={20} entranceScale={0.65} onClick={onConnect}>Connect your studio</ChromaticButton></div></div>;
+}

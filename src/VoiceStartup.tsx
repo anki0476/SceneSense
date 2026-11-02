@@ -1,0 +1,7 @@
+import {useEffect,useState} from 'react';
+export function VoiceStartup({call}:{call:(channel:string,input?:unknown)=>Promise<any>}){
+ const [enabled,setEnabled]=useState(false),[busy,setBusy]=useState(true),[error,setError]=useState('');
+ useEffect(()=>{if(!window.scenesense){setBusy(false);return;}void call('app:voice-startup:status').then(value=>setEnabled(value.enabled)).catch(e=>setError(e.message)).finally(()=>setBusy(false));},[]);
+ async function toggle(){setBusy(true);setError('');try{setEnabled((await call('app:voice-startup:set',!enabled)).enabled);}catch(e){setError(e instanceof Error?e.message:'Could not save startup preference.');}finally{setBusy(false);}}
+ return <section className="scene-computer-card"><h2>Launch voice at startup</h2><button className="scene-switch" role="switch" aria-label="Launch voice at startup" aria-checked={enabled} disabled={busy||!window.scenesense} onClick={()=>void toggle()}><span/></button><p>Keep Sense ready in the background when you sign in. Press Ctrl+Shift+Z to dictate without opening the app.</p><p className="control-note">Requires microphone permission and a saved API configuration. Closing the window keeps voice running while enabled. Use the tray menu to open SceneSense or quit.</p>{!window.scenesense&&<p className="control-note">Enable this in the SceneSense desktop app.</p>}{error&&<p role="alert" className="inline-error">{error}</p>}</section>;
+}

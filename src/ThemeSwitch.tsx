@@ -1,0 +1,7 @@
+export function ThemeSwitch({checked,onCheckedChange}:{checked:boolean;onCheckedChange:(checked:boolean)=>void}){
+ return <div className="theme-switch16" data-state={checked?'checked':'unchecked'}>
+  <button className="theme-choice theme-choice-light" aria-label="Use light mode" aria-controls="theme-toggle" onClick={()=>onCheckedChange(false)}><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 2a1 1 0 0 1 1 1v1a1 1 0 1 1-2 0V3a1 1 0 0 1 1-1Zm0 4a4 4 0 1 0 0 8 4 4 0 0 0 0-8Zm7 3h-1a1 1 0 1 0 0 2h1a1 1 0 1 0 0-2ZM4 9H3a1 1 0 1 0 0 2h1a1 1 0 0 0 0-2Zm7 7a1 1 0 1 0-2 0v1a1 1 0 1 0 2 0v-1ZM5.76 4.34a1 1 0 0 0-1.42 1.42l.71.7a1 1 0 0 0 1.42-1.41l-.71-.71Zm9.9 9.9a1 1 0 0 0-1.42 1.42l.71.7a1 1 0 0 0 1.42-1.41l-.71-.71Zm.71-8.48a1 1 0 0 0-1.42-1.42l-.7.71a1 1 0 0 0 1.41 1.42l.71-.71Zm-9.9 9.9a1 1 0 0 0-1.42-1.42l-.7.71a1 1 0 0 0 1.41 1.42l.71-.71Z"/></svg></button>
+  <button id="theme-toggle" className="settings-switch" role="switch" aria-label="Toggle between dark and light mode" aria-checked={checked} onClick={()=>onCheckedChange(!checked)}><span/></button>
+  <button className="theme-choice theme-choice-dark" aria-label="Use dark mode" aria-controls="theme-toggle" onClick={()=>onCheckedChange(true)}><svg viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M17.293 13.293A8 8 0 0 1 6.707 2.707a8.001 8.001 0 1 0 10.586 10.586Z"/></svg></button>
+ </div>;
+}

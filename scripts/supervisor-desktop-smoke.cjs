@@ -1,0 +1,3 @@
+const {spawn}=require('node:child_process');
+const {createObsFixture}=require('../tests/fixtures/obs-server.cjs');
+(async()=>{const fixture=await createObsFixture({supervisor:true});try{const child=spawn(require('electron'),['.','--disable-gpu','--smoke-test','--supervisor-smoke','--fixture-port='+fixture.port],{stdio:'inherit',windowsHide:true});const code=await new Promise((resolve,reject)=>{child.on('error',reject);child.on('exit',resolve);});if(code!==0)throw Error('Supervisor desktop integration failed.');}finally{await fixture.close();}})().catch(e=>{console.error(e.message);process.exitCode=1});

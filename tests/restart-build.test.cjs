@@ -1,0 +1,3 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');const {buildUpdate}=require('../desktop/restart-build.cjs');
+test('update runs typecheck then build without a shell or visible terminal',async()=>{const calls=[];await buildUpdate(process.cwd(),{execute:async(exe,args,options)=>calls.push({args,options})});assert.equal(calls.length,2);assert.equal(calls[0].args[1],'--noEmit');assert.equal(calls[1].args[1],'build');assert.equal(calls[0].options.windowsHide,true);assert.equal(calls[0].options.shell,undefined);});
+test('failed typecheck prevents the update build',async()=>{let calls=0;await assert.rejects(buildUpdate(process.cwd(),{execute:async()=>{calls++;throw new Error('failure');}}));assert.equal(calls,1);});

@@ -1,0 +1,4 @@
+const {test}=require('node:test');const assert=require('node:assert/strict');const fs=require('node:fs');const os=require('node:os');const path=require('node:path');const {ComputerUsePreference}=require('../desktop/computer-use-preference.cjs');
+test('computer use remembers both enabled and disabled across fresh instances',()=>{
+ const folder=fs.mkdtempSync(path.join(os.tmpdir(),'sense-preference-'));try{const file=path.join(folder,'computer-use.json'),first=new ComputerUsePreference(file);assert.equal(first.read(),false);first.set(true);assert.equal(new ComputerUsePreference(file).read(),true);new ComputerUsePreference(file).set(false);assert.equal(new ComputerUsePreference(file).read(),false);assert.throws(()=>first.set('true'));assert.equal(first.read(),false);fs.writeFileSync(file,'invalid');assert.equal(first.read(),false);}finally{fs.rmSync(folder,{recursive:true,force:true});}
+});

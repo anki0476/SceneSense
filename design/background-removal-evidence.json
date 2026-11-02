@@ -1,0 +1,1997 @@
+{
+  "objective": "Preserve a clean, stable person cutout in OBS during gameplay without a physical green screen.",
+  "updated": "2026-11-01",
+  "stage": "Native OBS filter integrated into app controls; motion acceptance pending",
+  "constraints": {
+    "hardware": "Previously observed Ryzen 5 5600H, GTX 1650, about 8 GB RAM",
+    "camera": "Previously observed 640x360 at 30 FPS; keep unchanged for first comparison",
+    "privacy": "Local recordings and inference only; no uploads or paid API calls",
+    "experimentBudget": "20 minutes after capture, then reassess",
+    "scope": "Existing installed OBS Background Removal 1.4.1; no new engine or UI before comparison",
+    "gpuSpike": "One documented discrete-GPU selection retry; stop after this run if it misses the timing target.",
+    "currentScope": "Native DirectML experimental bridge authorized after retaining the approach; no production default promoted.",
+    "integrationBudgetReview": "Performance probes ended within the 35-minute budget; necessary cleanup diagnosis, fix verification and evidence recording continued afterward. No further performance trials or paid calls."
+  },
+  "acceptance": [
+    {
+      "id": "detail",
+      "criterion": "Visibly cleaner hair, face and shoulder boundaries than the original on the same footage, reviewed on dark and light backgrounds.",
+      "status": "RVM silhouettes visually smoother, but no candidate meets the combined quality and timing requirement. No quality percentage established."
+    },
+    {
+      "id": "motion",
+      "criterion": "Head turns and moving hands remain present, without persistent holes or conspicuous trailing silhouettes; re-entry recovers.",
+      "status": "Head turns and hand/face occlusion captured; exit/re-entry not demonstrated in the clip."
+    },
+    {
+      "id": "timing",
+      "criterion": "Measure mask responsiveness separately from OBS output FPS; target additional delay below 100 ms, with no sustained delay above 150 ms.",
+      "status": "Native isolated processing improved to ~33 FPS. Physical source-to-OBS bridge delivered 20.6 updates/s with 111 ms median and 140 ms p95 request-to-canvas acknowledgement; physical camera-to-OBS presentation latency remains unmeasured."
+    },
+    {
+      "id": "gameplay",
+      "criterion": "No material gameplay regression or sustained OBS rendering overload with Asphalt, voice and watching active.",
+      "status": "unproven"
+    },
+    {
+      "id": "recovery",
+      "criterion": "Restore settings, enabled state, original program scene and virtual-camera state after the experiment; never start streaming or OBS recording.",
+      "status": "Original OBS scene, camera transform, filters and virtual-camera state independently verified intact. Old probe server required assisted closure; corrected socket cleanup passed a separate actual worker/viewer lifecycle test."
+    }
+  ],
+  "confirmed": [
+    "Existing adapter creates and toggles an owned filter without changing webcam transforms.",
+    "Original defaults use MediaPipe, hard threshold 0.5, CPU and two threads.",
+    "Installed plugin contains the RVM MobileNetV3 model.",
+    "OBS output FPS alone does not measure inference FPS or mask latency.",
+    "Matched local capture: 20.033 seconds, 640x360, 30 FPS.",
+    "MediaPipe baseline and soft: OBS 30 FPS, zero skipped render frames.",
+    "RVM CPU: OBS 7.5 FPS, 497/675 render frames skipped.",
+    "Selfie soft: OBS 30 FPS, zero render skips, but visible background fragments.",
+    "Selfie multiclass: OBS 4.05 FPS, shirt holes, 577/677 render frames skipped."
+  ],
+  "knownFailures": [
+    "User rejected coarse borders, pale fringe and lost silhouette detail in the first implementation.",
+    "A prior hidden-OBS test stopped feeding frames until local virtual-camera output was restored.",
+    "Soft MediaPipe retained jagged edges; neither Selfie variant passed the quality/performance gate.",
+    "Isolated WebGL RVM selected AMD integrated graphics: motion median 320 ms, p95 401 ms.",
+    "Selfie multiclass skipped 577 of 677 OBS render frames.",
+    "Discrete-GPU RVM still processed only about 8.1 frames per second in isolation."
+  ],
+  "nextDecision": "User verifies forward/backward movement with the native path, then return to the scheduled core product phases. No further matting expansion in this one-hour pass.",
+  "results": [
+    {
+      "id": "baseline",
+      "settings": {
+        "advanced": false,
+        "blur_background": 0,
+        "blur_focus_depth": 0,
+        "blur_focus_point": 0.1,
+        "contour_filter": 0.05,
+        "enable_focal_blur": false,
+        "enable_image_similarity": true,
+        "enable_threshold": true,
+        "feather": 0,
+        "image_similarity_threshold": 35,
+        "mask_every_x_frames": 1,
+        "mask_expansion": 0,
+        "model_select": "models/mediapipe.with_runtime_opt.ort",
+        "numThreads": 2,
+        "smooth_contour": 0.5,
+        "stop_when_source_is_inactive": true,
+        "temporal_smooth_factor": 0.85,
+        "threshold": 0.5,
+        "useGPU": "cpu"
+      },
+      "elapsedMs": 22437,
+      "obsFps": 30.000000300000007,
+      "obsCpu": 13.02290846763849,
+      "renderFrames": 673,
+      "renderSkipped": 0,
+      "mediaState": "OBS_MEDIA_STATE_PLAYING",
+      "maskInferenceFps": "not measured",
+      "maskLatency": "not measured",
+      "alignment": "Same replayed clip; virtual-camera recordings not frame-accurately synchronized"
+    },
+    {
+      "id": "mediapipe-soft",
+      "settings": {
+        "advanced": false,
+        "blur_background": 0,
+        "blur_focus_depth": 0,
+        "blur_focus_point": 0.1,
+        "contour_filter": 0.05,
+        "enable_focal_blur": false,
+        "enable_image_similarity": false,
+        "enable_threshold": false,
+        "feather": 0,
+        "image_similarity_threshold": 35,
+        "mask_every_x_frames": 1,
+        "mask_expansion": 0,
+        "model_select": "models/mediapipe.with_runtime_opt.ort",
+        "numThreads": 2,
+        "smooth_contour": 0.5,
+        "stop_when_source_is_inactive": true,
+        "temporal_smooth_factor": 1,
+        "threshold": 0.5,
+        "useGPU": "cpu"
+      },
+      "elapsedMs": 22420,
+      "obsFps": 30.000000300000007,
+      "obsCpu": 20.578181997905016,
+      "renderFrames": 673,
+      "renderSkipped": 0,
+      "mediaState": "OBS_MEDIA_STATE_PLAYING",
+      "maskInferenceFps": "not measured",
+      "maskLatency": "not measured",
+      "alignment": "Same replayed clip; virtual-camera recordings not frame-accurately synchronized"
+    },
+    {
+      "id": "rvm-soft",
+      "settings": {
+        "advanced": false,
+        "blur_background": 0,
+        "blur_focus_depth": 0,
+        "blur_focus_point": 0.1,
+        "contour_filter": 0.05,
+        "enable_focal_blur": false,
+        "enable_image_similarity": false,
+        "enable_threshold": false,
+        "feather": 0,
+        "image_similarity_threshold": 35,
+        "mask_every_x_frames": 1,
+        "mask_expansion": 0,
+        "model_select": "models/rvm_mobilenetv3_fp32.with_runtime_opt.ort",
+        "numThreads": 2,
+        "smooth_contour": 0.5,
+        "stop_when_source_is_inactive": true,
+        "temporal_smooth_factor": 1,
+        "threshold": 0.5,
+        "useGPU": "cpu"
+      },
+      "elapsedMs": 22427,
+      "obsFps": 7.500000075000001,
+      "obsCpu": 24.408124159861686,
+      "renderFrames": 675,
+      "renderSkipped": 497,
+      "mediaState": "OBS_MEDIA_STATE_PLAYING",
+      "maskInferenceFps": "not measured",
+      "maskLatency": "not measured",
+      "alignment": "Same replayed clip; virtual-camera recordings not frame-accurately synchronized"
+    },
+    {
+      "id": "selfie-soft",
+      "settings": {
+        "advanced": false,
+        "blur_background": 0,
+        "blur_focus_depth": 0,
+        "blur_focus_point": 0.1,
+        "contour_filter": 0.05,
+        "enable_focal_blur": false,
+        "enable_image_similarity": false,
+        "enable_threshold": false,
+        "feather": 0,
+        "image_similarity_threshold": 35,
+        "mask_every_x_frames": 1,
+        "mask_expansion": 0,
+        "model_select": "models/selfie_segmentation.with_runtime_opt.ort",
+        "numThreads": 2,
+        "smooth_contour": 0.5,
+        "stop_when_source_is_inactive": true,
+        "temporal_smooth_factor": 1,
+        "threshold": 0.5,
+        "useGPU": "cpu"
+      },
+      "elapsedMs": 22428,
+      "obsFps": 30.000000300000007,
+      "obsCpu": 22.102953257426613,
+      "renderFrames": 673,
+      "renderSkipped": 0,
+      "mediaState": "OBS_MEDIA_STATE_PLAYING",
+      "maskInferenceFps": "not measured",
+      "maskLatency": "not measured",
+      "alignment": "Same replayed clip; virtual-camera recordings not frame-accurately synchronized"
+    },
+    {
+      "id": "selfie-multiclass",
+      "settings": {
+        "advanced": false,
+        "blur_background": 0,
+        "blur_focus_depth": 0,
+        "blur_focus_point": 0.1,
+        "contour_filter": 0.05,
+        "enable_focal_blur": false,
+        "enable_image_similarity": false,
+        "enable_threshold": false,
+        "feather": 0,
+        "image_similarity_threshold": 35,
+        "mask_every_x_frames": 1,
+        "mask_expansion": 0,
+        "model_select": "models/selfie_multiclass_256x256.with_runtime_opt.ort",
+        "numThreads": 2,
+        "smooth_contour": 0.5,
+        "stop_when_source_is_inactive": true,
+        "temporal_smooth_factor": 1,
+        "threshold": 0.5,
+        "useGPU": "cpu"
+      },
+      "elapsedMs": 22435,
+      "obsFps": 4.054054094594595,
+      "obsCpu": 23.882145030783686,
+      "renderFrames": 677,
+      "renderSkipped": 577,
+      "mediaState": "OBS_MEDIA_STATE_PLAYING",
+      "maskInferenceFps": "not measured",
+      "maskLatency": "not measured",
+      "alignment": "Same replayed clip; virtual-camera recordings not frame-accurately synchronized"
+    }
+  ],
+  "spend": {
+    "paidApiCalls": 0,
+    "newModelDownloads": 1,
+    "modelArchiveBytes": 2704179
+  },
+  "gpuIntegrated": {
+    "backend": "webgl",
+    "renderer": "ANGLE (AMD, AMD Radeon(TM) Graphics (0x00001638) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "trials": [
+      {
+        "ratio": 0.5,
+        "medianMs": 256.90000000037253,
+        "p95Ms": 298.5,
+        "meanMs": 257.94500000001864,
+        "tensors": 430
+      },
+      {
+        "ratio": 0.75,
+        "medianMs": 462.19999999925494,
+        "p95Ms": 571.9000000003725,
+        "meanMs": 454.9100000000559,
+        "tensors": 430
+      }
+    ],
+    "selected": 0.5,
+    "motion": {
+      "frames": 61,
+      "wallMs": 20609.700000001118,
+      "medianMs": 320,
+      "p95Ms": 401.2999999988824,
+      "videoTime": 20.033333,
+      "ended": true,
+      "samples": [
+        {
+          "inputTime": 4.1331
+        },
+        {
+          "inputTime": 8.3419
+        },
+        {
+          "inputTime": 12.1419
+        },
+        {
+          "inputTime": 16.0783
+        }
+      ]
+    },
+    "tensorsAfter": 0,
+    "limitations": [
+      "Isolated renderer benchmark: OBS transport, camera ownership, alpha delivery and gameplay not integrated or measured.",
+      "No ground-truth matte or measured quality percentage."
+    ]
+  },
+  "gpuDiscrete": {
+    "backend": "webgl",
+    "renderer": "ANGLE (NVIDIA, NVIDIA GeForce GTX 1650 (0x00001F99) Direct3D11 vs_5_0 ps_5_0, D3D11)",
+    "trials": [
+      {
+        "ratio": 0.5,
+        "medianMs": 125.30000000074506,
+        "p95Ms": 139.09999999962747,
+        "meanMs": 124.77499999990687,
+        "tensors": 430
+      },
+      {
+        "ratio": 0.75,
+        "medianMs": 268.90000000037253,
+        "p95Ms": 289.3999999985099,
+        "meanMs": 268.59999999990686,
+        "tensors": 430
+      }
+    ],
+    "selected": 0.5,
+    "motion": {
+      "frames": 165,
+      "wallMs": 20270.300000000745,
+      "medianMs": 113.40000000037253,
+      "p95Ms": 141,
+      "videoTime": 20.033333,
+      "ended": true,
+      "samples": [
+        {
+          "inputTime": 4.0294
+        },
+        {
+          "inputTime": 8.0267
+        },
+        {
+          "inputTime": 12.0429
+        },
+        {
+          "inputTime": 16.0849
+        },
+        {
+          "inputTime": 20.033333
+        }
+      ]
+    },
+    "tensorsAfter": 0,
+    "limitations": [
+      "Isolated renderer benchmark: OBS transport, camera ownership, alpha delivery and gameplay not integrated or measured.",
+      "No ground-truth matte or measured quality percentage."
+    ]
+  },
+  "decision": "Use the direct native OBS filter at ratio .5 on this laptop, retaining the legacy adapter only when native is unavailable.",
+  "elapsedMinutesAfterCapture": 20.1,
+  "productionChanges": "None: original defaults, scene and filter state preserved.",
+  "nativeFinal": {
+    "startedAt": "2026-10-31T20:40:52.309Z",
+    "budgetMinutes": 20,
+    "scope": "Official RVM FP16/FP32 native DirectML on verified NVIDIA adapter; saved clip only. Stable CPU roundtrip recurrent state, failed GPU-resident I/O excluded.",
+    "gates": {
+      "progress": "Clear processing-time improvement over WebGL median 113.4 ms, with clean soft-alpha output.",
+      "viability": "Aim for p95 processing below 33.3 ms at 640x360, preserving meaningful head/hand boundaries.",
+      "failureDecision": "Shelve background removal if there is no meaningful progress; no production integration without representative acceptance."
+    },
+    "paidApiCalls": 0,
+    "modelBytes": 22479179,
+    "status": "completed",
+    "inferenceCompletedAt": "2026-10-31T20:57:34.490940+00:00",
+    "selected": {
+      "tag": "directml-fp32-0.375-reference",
+      "runtime": "1.23.0",
+      "providers": [
+        "DmlExecutionProvider",
+        "CPUExecutionProvider"
+      ],
+      "profileNodeProviders": {
+        "DmlExecutionProvider": 1255,
+        "CPUExecutionProvider": 45
+      },
+      "gpu": {
+        "id": 1,
+        "name": "NVIDIA GeForce GTX 1650",
+        "vendor": 4318,
+        "vramMiB": 3935,
+        "software": false
+      },
+      "precision": "fp32",
+      "ratio": 0.375,
+      "inputResolution": [
+        640,
+        360
+      ],
+      "recurrentStateOnGPU": false,
+      "static": {
+        "processing": {
+          "medianMs": 26.72190000066621,
+          "p95Ms": 32.515545000478596,
+          "meanMs": 27.25901249996241,
+          "maxMs": 34.80619999936607
+        },
+        "inferenceWithReadback": {
+          "medianMs": 17.810500000450702,
+          "p95Ms": 21.58529000062117,
+          "meanMs": 18.135830000073838,
+          "maxMs": 22.652499999821885
+        }
+      },
+      "motion": {
+        "frames": 601,
+        "clipSeconds": 20.033333333333335,
+        "processingIncludingDecode": {
+          "medianMs": 29.04850000049919,
+          "p95Ms": 40.636199999426026,
+          "meanMs": 30.491041098202203,
+          "maxMs": 71.30480000159878
+        },
+        "inferenceAndReadback": {
+          "medianMs": 20.33080000001064,
+          "p95Ms": 31.701300000349875,
+          "meanMs": 21.852242762040007,
+          "maxMs": 50.15040000034787
+        },
+        "decode": {
+          "medianMs": 0.5662000003212597,
+          "p95Ms": 0.9183999991364544,
+          "meanMs": 0.6914873543873773,
+          "maxMs": 36.801799999011564
+        },
+        "processingFps": 32.79651871444172,
+        "wallSecondsIncludingExport": 24.488144700000703,
+        "samples": [
+          {
+            "inputTime": 4,
+            "file": "directml-fp32-0.375-reference-4000.png"
+          },
+          {
+            "inputTime": 8,
+            "file": "directml-fp32-0.375-reference-8000.png"
+          },
+          {
+            "inputTime": 12,
+            "file": "directml-fp32-0.375-reference-12000.png"
+          },
+          {
+            "inputTime": 16,
+            "file": "directml-fp32-0.375-reference-16000.png"
+          },
+          {
+            "inputTime": 20,
+            "file": "directml-fp32-0.375-reference-20000.png"
+          }
+        ]
+      },
+      "limitations": [
+        "Isolated native processing; no physical camera, production OBS transport or Asphalt contention measured.",
+        "Processing includes CPU frame normalization, GPU inference, GPU/CPU transfers, foreground and alpha extraction, compositing preparation, and decode. Video encoding is excluded.",
+        "No ground-truth mask; no quality percentage."
+      ]
+    },
+    "runs": [
+      {
+        "tag": "cpu-fp32-0.5-reference",
+        "runtime": "1.23.0",
+        "providers": [
+          "CPUExecutionProvider"
+        ],
+        "profileNodeProviders": {
+          "CPUExecutionProvider": 1890
+        },
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "precision": "fp32",
+        "ratio": 0.5,
+        "inputResolution": [
+          640,
+          360
+        ],
+        "recurrentStateOnGPU": false,
+        "static": {
+          "processing": {
+            "medianMs": 95.62245000051917,
+            "p95Ms": 107.29920499979923,
+            "meanMs": 97.09418749994256,
+            "maxMs": 121.06479999965813
+          },
+          "inferenceWithReadback": {
+            "medianMs": 86.8074499994691,
+            "p95Ms": 96.49857499998686,
+            "meanMs": 88.50981499999762,
+            "maxMs": 112.41010000048846
+          }
+        },
+        "motion": {
+          "frames": 120,
+          "clipSeconds": 4,
+          "processingIncludingDecode": {
+            "medianMs": 97.10924999853887,
+            "p95Ms": 106.29929999995511,
+            "meanMs": 98.94059833330478,
+            "maxMs": 187.64350000128616
+          },
+          "inferenceAndReadback": {
+            "medianMs": 87.66424999976152,
+            "p95Ms": 96.61060999969777,
+            "meanMs": 88.96454999990056,
+            "maxMs": 119.19940000007045
+          },
+          "decode": {
+            "medianMs": 0.5867500003660098,
+            "p95Ms": 0.9395650005899367,
+            "meanMs": 1.0529074999340082,
+            "maxMs": 53.41030000090541
+          },
+          "processingFps": 10.107074515875311,
+          "wallSecondsIncludingExport": 13.224710099999356,
+          "samples": [
+            {
+              "inputTime": 4,
+              "file": "cpu-fp32-0.5-reference-4000.png"
+            }
+          ]
+        },
+        "limitations": [
+          "Isolated native processing; no physical camera, production OBS transport or Asphalt contention measured.",
+          "Processing includes CPU frame normalization, GPU inference, GPU/CPU transfers, foreground and alpha extraction, compositing preparation, and decode. Video encoding is excluded.",
+          "No ground-truth mask; no quality percentage."
+        ]
+      },
+      {
+        "tag": "directml-fp16-0.5-reference",
+        "runtime": "1.23.0",
+        "providers": [
+          "DmlExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "profileNodeProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "precision": "fp16",
+        "ratio": 0.5,
+        "inputResolution": [
+          640,
+          360
+        ],
+        "recurrentStateOnGPU": false,
+        "static": {
+          "processing": {
+            "medianMs": 55.869499999971595,
+            "p95Ms": 64.72308999973393,
+            "meanMs": 57.55989250001221,
+            "maxMs": 65.50509999942733
+          },
+          "inferenceWithReadback": {
+            "medianMs": 25.613549999434326,
+            "p95Ms": 34.16868500116834,
+            "meanMs": 27.2885075000886,
+            "maxMs": 35.00680000070133
+          }
+        },
+        "motion": {
+          "frames": 601,
+          "clipSeconds": 20.033333333333335,
+          "processingIncludingDecode": {
+            "medianMs": 64.13700000121025,
+            "p95Ms": 68.46940000104951,
+            "meanMs": 64.48915640610724,
+            "maxMs": 109.06040000008943
+          },
+          "inferenceAndReadback": {
+            "medianMs": 33.79209999911836,
+            "p95Ms": 35.55489999962447,
+            "meanMs": 33.874857570726405,
+            "maxMs": 41.51069999898027
+          },
+          "decode": {
+            "medianMs": 0.5763999997725477,
+            "p95Ms": 0.9390000013809185,
+            "meanMs": 0.6827685524989762,
+            "maxMs": 39.87270000106946
+          },
+          "processingFps": 15.506482883768939,
+          "wallSecondsIncludingExport": 44.8209536000013,
+          "samples": [
+            {
+              "inputTime": 4,
+              "file": "directml-fp16-0.5-reference-4000.png"
+            },
+            {
+              "inputTime": 8,
+              "file": "directml-fp16-0.5-reference-8000.png"
+            },
+            {
+              "inputTime": 12,
+              "file": "directml-fp16-0.5-reference-12000.png"
+            },
+            {
+              "inputTime": 16,
+              "file": "directml-fp16-0.5-reference-16000.png"
+            },
+            {
+              "inputTime": 20,
+              "file": "directml-fp16-0.5-reference-20000.png"
+            }
+          ]
+        },
+        "limitations": [
+          "Isolated native processing; no physical camera, production OBS transport or Asphalt contention measured.",
+          "Processing includes CPU frame normalization, GPU inference, GPU/CPU transfers, foreground and alpha extraction, compositing preparation, and decode. Video encoding is excluded.",
+          "No ground-truth mask; no quality percentage."
+        ]
+      },
+      {
+        "tag": "directml-fp32-0.25-reference",
+        "runtime": "1.23.0",
+        "providers": [
+          "DmlExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "profileNodeProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "precision": "fp32",
+        "ratio": 0.25,
+        "inputResolution": [
+          640,
+          360
+        ],
+        "recurrentStateOnGPU": false,
+        "static": {
+          "processing": {
+            "medianMs": 26.313700000173412,
+            "p95Ms": 32.293184999525685,
+            "meanMs": 27.41732750000665,
+            "maxMs": 35.11149999940244
+          },
+          "inferenceWithReadback": {
+            "medianMs": 17.193099999531114,
+            "p95Ms": 24.386679999770422,
+            "meanMs": 18.9340625001023,
+            "maxMs": 26.97190000071714
+          }
+        },
+        "motion": {
+          "frames": 601,
+          "clipSeconds": 20.033333333333335,
+          "processingIncludingDecode": {
+            "medianMs": 31.607499999154243,
+            "p95Ms": 39.443300000129966,
+            "meanMs": 31.793582529063375,
+            "maxMs": 62.03069999901345
+          },
+          "inferenceAndReadback": {
+            "medianMs": 23.792600000888342,
+            "p95Ms": 27.960700001131045,
+            "meanMs": 23.30494309481551,
+            "maxMs": 43.96269999961078
+          },
+          "decode": {
+            "medianMs": 0.5435000002762536,
+            "p95Ms": 0.9176000003208173,
+            "meanMs": 0.6520108152883567,
+            "maxMs": 36.686199999167
+          },
+          "processingFps": 31.452888301778287,
+          "wallSecondsIncludingExport": 25.199396699999852,
+          "samples": [
+            {
+              "inputTime": 4,
+              "file": "directml-fp32-0.25-reference-4000.png"
+            },
+            {
+              "inputTime": 8,
+              "file": "directml-fp32-0.25-reference-8000.png"
+            },
+            {
+              "inputTime": 12,
+              "file": "directml-fp32-0.25-reference-12000.png"
+            },
+            {
+              "inputTime": 16,
+              "file": "directml-fp32-0.25-reference-16000.png"
+            },
+            {
+              "inputTime": 20,
+              "file": "directml-fp32-0.25-reference-20000.png"
+            }
+          ]
+        },
+        "limitations": [
+          "Isolated native processing; no physical camera, production OBS transport or Asphalt contention measured.",
+          "Processing includes CPU frame normalization, GPU inference, GPU/CPU transfers, foreground and alpha extraction, compositing preparation, and decode. Video encoding is excluded.",
+          "No ground-truth mask; no quality percentage."
+        ]
+      },
+      {
+        "tag": "directml-fp32-0.375-reference",
+        "runtime": "1.23.0",
+        "providers": [
+          "DmlExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "profileNodeProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "precision": "fp32",
+        "ratio": 0.375,
+        "inputResolution": [
+          640,
+          360
+        ],
+        "recurrentStateOnGPU": false,
+        "static": {
+          "processing": {
+            "medianMs": 26.72190000066621,
+            "p95Ms": 32.515545000478596,
+            "meanMs": 27.25901249996241,
+            "maxMs": 34.80619999936607
+          },
+          "inferenceWithReadback": {
+            "medianMs": 17.810500000450702,
+            "p95Ms": 21.58529000062117,
+            "meanMs": 18.135830000073838,
+            "maxMs": 22.652499999821885
+          }
+        },
+        "motion": {
+          "frames": 601,
+          "clipSeconds": 20.033333333333335,
+          "processingIncludingDecode": {
+            "medianMs": 29.04850000049919,
+            "p95Ms": 40.636199999426026,
+            "meanMs": 30.491041098202203,
+            "maxMs": 71.30480000159878
+          },
+          "inferenceAndReadback": {
+            "medianMs": 20.33080000001064,
+            "p95Ms": 31.701300000349875,
+            "meanMs": 21.852242762040007,
+            "maxMs": 50.15040000034787
+          },
+          "decode": {
+            "medianMs": 0.5662000003212597,
+            "p95Ms": 0.9183999991364544,
+            "meanMs": 0.6914873543873773,
+            "maxMs": 36.801799999011564
+          },
+          "processingFps": 32.79651871444172,
+          "wallSecondsIncludingExport": 24.488144700000703,
+          "samples": [
+            {
+              "inputTime": 4,
+              "file": "directml-fp32-0.375-reference-4000.png"
+            },
+            {
+              "inputTime": 8,
+              "file": "directml-fp32-0.375-reference-8000.png"
+            },
+            {
+              "inputTime": 12,
+              "file": "directml-fp32-0.375-reference-12000.png"
+            },
+            {
+              "inputTime": 16,
+              "file": "directml-fp32-0.375-reference-16000.png"
+            },
+            {
+              "inputTime": 20,
+              "file": "directml-fp32-0.375-reference-20000.png"
+            }
+          ]
+        },
+        "limitations": [
+          "Isolated native processing; no physical camera, production OBS transport or Asphalt contention measured.",
+          "Processing includes CPU frame normalization, GPU inference, GPU/CPU transfers, foreground and alpha extraction, compositing preparation, and decode. Video encoding is excluded.",
+          "No ground-truth mask; no quality percentage."
+        ]
+      },
+      {
+        "tag": "directml-fp32-0.5-reference",
+        "runtime": "1.23.0",
+        "providers": [
+          "DmlExecutionProvider",
+          "CPUExecutionProvider"
+        ],
+        "profileNodeProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "precision": "fp32",
+        "ratio": 0.5,
+        "inputResolution": [
+          640,
+          360
+        ],
+        "recurrentStateOnGPU": false,
+        "static": {
+          "processing": {
+            "medianMs": 35.69994999998016,
+            "p95Ms": 37.02523999963887,
+            "meanMs": 35.58523000006062,
+            "maxMs": 37.19950000049721
+          },
+          "inferenceWithReadback": {
+            "medianMs": 21.72835000055784,
+            "p95Ms": 23.103160001392098,
+            "meanMs": 21.71783749995484,
+            "maxMs": 23.925699999381322
+          }
+        },
+        "motion": {
+          "frames": 120,
+          "clipSeconds": 4,
+          "processingIncludingDecode": {
+            "medianMs": 43.83400000006077,
+            "p95Ms": 48.610355000710115,
+            "meanMs": 44.286964999976895,
+            "maxMs": 74.16190000003553
+          },
+          "inferenceAndReadback": {
+            "medianMs": 28.805700000702927,
+            "p95Ms": 32.18597000013688,
+            "meanMs": 28.635192500072055,
+            "maxMs": 34.16329999890877
+          },
+          "decode": {
+            "medianMs": 0.5748000003222842,
+            "p95Ms": 1.1057799993977824,
+            "meanMs": 0.9256099999674916,
+            "maxMs": 34.972499999639695
+          },
+          "processingFps": 22.580007458188245,
+          "wallSecondsIncludingExport": 6.68214160000025,
+          "samples": [
+            {
+              "inputTime": 4,
+              "file": "directml-fp32-0.5-reference-4000.png"
+            }
+          ]
+        },
+        "limitations": [
+          "Isolated native processing; no physical camera, production OBS transport or Asphalt contention measured.",
+          "Processing includes CPU frame normalization, GPU inference, GPU/CPU transfers, foreground and alpha extraction, compositing preparation, and decode. Video encoding is excluded.",
+          "No ground-truth mask; no quality percentage."
+        ]
+      }
+    ],
+    "meaningfulProgress": true,
+    "strictP95TargetMet": false,
+    "productionIntegrated": false,
+    "cpuGpuStaticAlphaAgreement": {
+      "meanAbsoluteDifferenceOutOf255": 0.000004340277777777778,
+      "maxDifferenceOutOf255": 1,
+      "meaning": "Numerical agreement only; not ground-truth quality."
+    },
+    "failedApproach": "GPU-resident recurrent I/O binding caused a device error/access violation. Excluded; session.run reference path is stable.",
+    "review": ".artifacts/matting-evaluation-20261101/native/review.html",
+    "elapsedInferenceExperimentMinutes": 16.703032333333333,
+    "visualAssessment": "Modest qualitative improvement in softness and rounded outlines; the original hard mask is sharper. Native samples still show faint hair/ear fringes and erosion near the bottom of the shirt. Head turns and hand-over-face movement preserved. This does not establish green-screen quality or a measured quality percentage."
+  },
+  "nativeIntegration": {
+    "startedAt": "2026-11-01T05:39:16.084Z",
+    "budgetMinutes": 35,
+    "paidApiCalls": 0,
+    "status": "experimental_path_verified_performance_gates_unmet",
+    "outcome": "Native soft-alpha output visible inside OBS without changing existing webcam sources or starting a stream/recording.",
+    "gates": {
+      "alpha": "Transparent subject composited over a known background in actual OBS output",
+      "latency": "Measure input-to-CEF-canvas acknowledgement, target p95 below 200 ms; this is a lower bound on OBS delivery",
+      "fps": "Aim for at least 24 delivered frames/second and no sustained OBS render failures",
+      "restore": "Restore previous scene, remove only owned QA sources, stop the worker and local server"
+    },
+    "constraints": "Local saved clip first; no quality percentage; live camera and Asphalt contention are separate claims.",
+    "probeCompletedAt": "2026-11-01T06:03:56.503768+00:00",
+    "probeMinutes": 24.6736628,
+    "report": ".artifacts/native-integration-20261101/review.html",
+    "runs": [
+      {
+        "mode": "replay",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20046,
+        "produced": 343,
+        "canvasAcknowledged": 320,
+        "deliveredFps": 15.963284445774718,
+        "captureMs": {
+          "samples": 504,
+          "median": 18,
+          "p95": 24,
+          "max": 31
+        },
+        "workerMs": {
+          "samples": 343,
+          "median": 39.598388671875,
+          "p95": 51.87158203125,
+          "max": 58.925048828125
+        },
+        "captureToCanvasMs": {
+          "samples": 320,
+          "median": 166,
+          "p95": 218,
+          "max": 261
+        },
+        "inputReplaced": 161,
+        "browserReplaced": 23,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 601,
+          "skipped": 0,
+          "cpuUsage": 12.094093176012365
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "replay-1793511824921",
+        "restoration": {
+          "recovery": [
+            {
+              "label": "program scene",
+              "ok": true
+            },
+            {
+              "label": "virtual camera",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned scene",
+              "ok": true
+            },
+            {
+              "label": "native worker and local server",
+              "ok": true
+            }
+          ],
+          "verified": {
+            "programScene": true,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "testSceneRemoved": true,
+            "workerStopped": true
+          }
+        },
+        "independentRestorationAudit": null
+      },
+      {
+        "mode": "replay",
+        "transport": "png",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20095,
+        "produced": 232,
+        "canvasAcknowledged": 231,
+        "deliveredFps": 11.495396864891765,
+        "captureMs": {
+          "samples": 481,
+          "median": 18,
+          "p95": 21,
+          "max": 32
+        },
+        "workerMs": {
+          "samples": 232,
+          "median": 49.96728515625,
+          "p95": 59.052978515625,
+          "max": 95.011474609375
+        },
+        "captureToCanvasMs": {
+          "samples": 231,
+          "median": 147,
+          "p95": 179,
+          "max": 211
+        },
+        "stages": {
+          "inputWaitMs": {
+            "samples": 232,
+            "median": 44.716064453125,
+            "p95": 61.77880859375,
+            "max": 65.8798828125
+          },
+          "outputTransferMs": {
+            "samples": 232,
+            "median": 36.81298828125,
+            "p95": 44.194580078125,
+            "max": 48.481689453125
+          },
+          "browserMs": {
+            "samples": 231,
+            "median": 11,
+            "p95": 40,
+            "max": 45
+          },
+          "payloadBytes": {
+            "samples": 232,
+            "median": 89349,
+            "p95": 99090,
+            "max": 100990
+          }
+        },
+        "inputReplaced": 248,
+        "browserReplaced": 0,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 603,
+          "skipped": 0,
+          "cpuUsage": 11.320307215924235
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "replay-1793512006440",
+        "restoration": {
+          "recovery": [
+            {
+              "label": "program scene",
+              "ok": true
+            },
+            {
+              "label": "virtual camera",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned scene",
+              "ok": true
+            },
+            {
+              "label": "native worker and local server",
+              "ok": true
+            }
+          ],
+          "verified": {
+            "programScene": true,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "testSceneRemoved": true,
+            "workerStopped": true
+          }
+        },
+        "independentRestorationAudit": null
+      },
+      {
+        "mode": "replay",
+        "transport": "raw",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20017,
+        "produced": 318,
+        "canvasAcknowledged": 302,
+        "deliveredFps": 15.087175900484588,
+        "captureMs": {
+          "samples": 477,
+          "median": 19,
+          "p95": 26,
+          "max": 35
+        },
+        "workerMs": {
+          "samples": 318,
+          "median": 47.20703125,
+          "p95": 55.935546875,
+          "max": 71.86767578125
+        },
+        "captureToCanvasMs": {
+          "samples": 302,
+          "median": 167,
+          "p95": 221,
+          "max": 266
+        },
+        "stages": {
+          "inputWaitMs": {
+            "samples": 318,
+            "median": 47.134033203125,
+            "p95": 70.65478515625,
+            "max": 81.816162109375
+          },
+          "outputTransferMs": {
+            "samples": 318,
+            "median": 16.453125,
+            "p95": 22.55810546875,
+            "max": 30.373046875
+          },
+          "browserMs": {
+            "samples": 302,
+            "median": 48,
+            "p95": 97,
+            "max": 108
+          },
+          "payloadBytes": {
+            "samples": 318,
+            "median": 921640,
+            "p95": 921640,
+            "max": 921640
+          }
+        },
+        "inputReplaced": 159,
+        "browserReplaced": 16,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 601,
+          "skipped": 0,
+          "cpuUsage": 11.176041837708246
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "replay-1793512183132",
+        "restoration": {
+          "recovery": [
+            {
+              "label": "program scene",
+              "ok": true
+            },
+            {
+              "label": "virtual camera",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned scene",
+              "ok": true
+            },
+            {
+              "label": "native worker and local server",
+              "ok": true
+            }
+          ],
+          "verified": {
+            "programScene": true,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "testSceneRemoved": true,
+            "workerStopped": true
+          }
+        },
+        "independentRestorationAudit": null
+      },
+      {
+        "mode": "replay",
+        "transport": "jpeg-alpha",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20066,
+        "produced": 294,
+        "canvasAcknowledged": 294,
+        "deliveredFps": 14.65164955646367,
+        "captureMs": {
+          "samples": 491,
+          "median": 18,
+          "p95": 22,
+          "max": 32
+        },
+        "workerMs": {
+          "samples": 294,
+          "median": 49.451416015625,
+          "p95": 58.109619140625,
+          "max": 67.003173828125
+        },
+        "captureToCanvasMs": {
+          "samples": 294,
+          "median": 130,
+          "p95": 156,
+          "max": 185
+        },
+        "stages": {
+          "inputWaitMs": {
+            "samples": 294,
+            "median": 37.828369140625,
+            "p95": 62.42529296875,
+            "max": 70.862060546875
+          },
+          "outputTransferMs": {
+            "samples": 294,
+            "median": 19.36328125,
+            "p95": 25.17578125,
+            "max": 31.56591796875
+          },
+          "browserMs": {
+            "samples": 294,
+            "median": 18,
+            "p95": 40,
+            "max": 53
+          },
+          "payloadBytes": {
+            "samples": 294,
+            "median": 80362,
+            "p95": 82199,
+            "max": 83298
+          }
+        },
+        "inputReplaced": 197,
+        "browserReplaced": 0,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 602,
+          "skipped": 0,
+          "cpuUsage": 11.200320908344885
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "replay-1793512419778",
+        "restoration": {
+          "recovery": [
+            {
+              "label": "program scene",
+              "ok": true
+            },
+            {
+              "label": "virtual camera",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned scene",
+              "ok": true
+            },
+            {
+              "label": "native worker and local server",
+              "ok": true
+            }
+          ],
+          "verified": {
+            "programScene": true,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "testSceneRemoved": true,
+            "workerStopped": true
+          }
+        },
+        "independentRestorationAudit": null
+      },
+      {
+        "mode": "replay",
+        "transport": "jpeg-alpha",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20052,
+        "produced": 394,
+        "canvasAcknowledged": 393,
+        "deliveredFps": 19.59904248952723,
+        "captureMs": {
+          "samples": 503,
+          "median": 18,
+          "p95": 22,
+          "max": 28
+        },
+        "workerMs": {
+          "samples": 394,
+          "median": 39.716064453125,
+          "p95": 53.7724609375,
+          "max": 65.381591796875
+        },
+        "captureToCanvasMs": {
+          "samples": 393,
+          "median": 116,
+          "p95": 144,
+          "max": 163
+        },
+        "stages": {
+          "inputWaitMs": {
+            "samples": 394,
+            "median": 41.83447265625,
+            "p95": 62.654541015625,
+            "max": 68.16455078125
+          },
+          "outputTransferMs": {
+            "samples": 394,
+            "median": 7.483642578125,
+            "p95": 10.564208984375,
+            "max": 16.587646484375
+          },
+          "browserMs": {
+            "samples": 393,
+            "median": 24,
+            "p95": 39,
+            "max": 52
+          },
+          "payloadBytes": {
+            "samples": 394,
+            "median": 71692,
+            "p95": 73061,
+            "max": 73633
+          }
+        },
+        "inputReplaced": 109,
+        "browserReplaced": 0,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 601,
+          "skipped": 0,
+          "cpuUsage": 11.558545622579686
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "replay-1793512652789",
+        "restoration": {
+          "recovery": [
+            {
+              "label": "program scene",
+              "ok": true
+            },
+            {
+              "label": "virtual camera",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned scene",
+              "ok": true
+            },
+            {
+              "label": "native worker and local server",
+              "ok": true
+            }
+          ],
+          "verified": {
+            "programScene": true,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "testSceneRemoved": true,
+            "workerStopped": true
+          }
+        },
+        "independentRestorationAudit": null
+      },
+      {
+        "mode": "replay",
+        "transport": "jpeg-alpha",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20069,
+        "produced": 375,
+        "canvasAcknowledged": 375,
+        "deliveredFps": 18.685534904579203,
+        "captureMs": {
+          "samples": 496,
+          "median": 18,
+          "p95": 22,
+          "max": 46
+        },
+        "workerMs": {
+          "samples": 375,
+          "median": 41.2421875,
+          "p95": 56.37646484375,
+          "max": 67.9453125
+        },
+        "captureToCanvasMs": {
+          "samples": 375,
+          "median": 118,
+          "p95": 147,
+          "max": 156
+        },
+        "stages": {
+          "inputWaitMs": {
+            "samples": 375,
+            "median": 39.87744140625,
+            "p95": 60.925048828125,
+            "max": 65.742431640625
+          },
+          "outputTransferMs": {
+            "samples": 375,
+            "median": 9.298828125,
+            "p95": 12.100341796875,
+            "max": 16.86083984375
+          },
+          "browserMs": {
+            "samples": 375,
+            "median": 24,
+            "p95": 40,
+            "max": 51
+          },
+          "payloadBytes": {
+            "samples": 375,
+            "median": 71690,
+            "p95": 73005,
+            "max": 73470
+          }
+        },
+        "inputReplaced": 122,
+        "browserReplaced": 0,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 602,
+          "skipped": 0,
+          "cpuUsage": 11.321131070573747
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "replay-1793512826374",
+        "restoration": {
+          "recovery": [
+            {
+              "label": "program scene",
+              "ok": true
+            },
+            {
+              "label": "virtual camera",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned input",
+              "ok": true
+            },
+            {
+              "label": "owned scene",
+              "ok": true
+            },
+            {
+              "label": "native worker and local server",
+              "ok": true
+            }
+          ],
+          "verified": {
+            "programScene": false,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "testSceneRemoved": true,
+            "workerStopped": true
+          }
+        },
+        "independentRestorationAudit": null
+      },
+      {
+        "mode": "webcam",
+        "transport": "jpeg-alpha",
+        "gpu": {
+          "id": 1,
+          "name": "NVIDIA GeForce GTX 1650",
+          "vendor": 4318,
+          "vramMiB": 3935,
+          "software": false
+        },
+        "profileProviders": {
+          "DmlExecutionProvider": 1255,
+          "CPUExecutionProvider": 45
+        },
+        "elapsedMs": 20031,
+        "produced": 413,
+        "canvasAcknowledged": 413,
+        "deliveredFps": 20.61804203484599,
+        "captureMs": {
+          "samples": 503,
+          "median": 18,
+          "p95": 21,
+          "max": 36
+        },
+        "workerMs": {
+          "samples": 413,
+          "median": 36.957763671875,
+          "p95": 53.195556640625,
+          "max": 61.7216796875
+        },
+        "captureToCanvasMs": {
+          "samples": 413,
+          "median": 111,
+          "p95": 140,
+          "max": 161
+        },
+        "stages": {
+          "inputWaitMs": {
+            "samples": 413,
+            "median": 41.69873046875,
+            "p95": 60.235107421875,
+            "max": 69.65576171875
+          },
+          "outputTransferMs": {
+            "samples": 413,
+            "median": 7.9638671875,
+            "p95": 10.69189453125,
+            "max": 12.245849609375
+          },
+          "browserMs": {
+            "samples": 413,
+            "median": 24,
+            "p95": 40,
+            "max": 54
+          },
+          "payloadBytes": {
+            "samples": 413,
+            "median": 66498,
+            "p95": 68850,
+            "max": 70418
+          }
+        },
+        "inputReplaced": 90,
+        "browserReplaced": 0,
+        "obs": {
+          "fps": 30.000000300000007,
+          "renderFrames": 601,
+          "skipped": 0,
+          "cpuUsage": 4.894719441315041
+        },
+        "limitations": [
+          "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+          "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+          "No game performance measurement or visual quality percentage."
+        ],
+        "directory": "webcam-1793513011114",
+        "restoration": null,
+        "independentRestorationAudit": {
+          "verified": {
+            "programScene": true,
+            "virtualCamera": true,
+            "webcamFilters": true,
+            "webcamTransform": true,
+            "testSceneRemoved": true
+          },
+          "note": "Independent read-only audit; old probe HTTP server required assisted closure."
+        }
+      }
+    ],
+    "selectedLive": {
+      "mode": "webcam",
+      "transport": "jpeg-alpha",
+      "gpu": {
+        "id": 1,
+        "name": "NVIDIA GeForce GTX 1650",
+        "vendor": 4318,
+        "vramMiB": 3935,
+        "software": false
+      },
+      "profileProviders": {
+        "DmlExecutionProvider": 1255,
+        "CPUExecutionProvider": 45
+      },
+      "elapsedMs": 20031,
+      "produced": 413,
+      "canvasAcknowledged": 413,
+      "deliveredFps": 20.61804203484599,
+      "captureMs": {
+        "samples": 503,
+        "median": 18,
+        "p95": 21,
+        "max": 36
+      },
+      "workerMs": {
+        "samples": 413,
+        "median": 36.957763671875,
+        "p95": 53.195556640625,
+        "max": 61.7216796875
+      },
+      "captureToCanvasMs": {
+        "samples": 413,
+        "median": 111,
+        "p95": 140,
+        "max": 161
+      },
+      "stages": {
+        "inputWaitMs": {
+          "samples": 413,
+          "median": 41.69873046875,
+          "p95": 60.235107421875,
+          "max": 69.65576171875
+        },
+        "outputTransferMs": {
+          "samples": 413,
+          "median": 7.9638671875,
+          "p95": 10.69189453125,
+          "max": 12.245849609375
+        },
+        "browserMs": {
+          "samples": 413,
+          "median": 24,
+          "p95": 40,
+          "max": 54
+        },
+        "payloadBytes": {
+          "samples": 413,
+          "median": 66498,
+          "p95": 68850,
+          "max": 70418
+        }
+      },
+      "inputReplaced": 90,
+      "browserReplaced": 0,
+      "obs": {
+        "fps": 30.000000300000007,
+        "renderFrames": 601,
+        "skipped": 0,
+        "cpuUsage": 4.894719441315041
+      },
+      "limitations": [
+        "Canvas acknowledgement is not a camera exposure or OBS presentation timestamp.",
+        "Replay mode is real-time replay of previously captured footage, not a new live-camera test.",
+        "No game performance measurement or visual quality percentage."
+      ],
+      "directory": "webcam-1793513011114",
+      "restoration": null,
+      "independentRestorationAudit": {
+        "verified": {
+          "programScene": true,
+          "virtualCamera": true,
+          "webcamFilters": true,
+          "webcamTransform": true,
+          "testSceneRemoved": true
+        },
+        "note": "Independent read-only audit; old probe HTTP server required assisted closure."
+      }
+    },
+    "alphaAgreement": {
+      "outputChannels": 4,
+      "alphaMaxDifferenceOutOf255": 0,
+      "alphaMeanAbsoluteDifferenceOutOf255": 0,
+      "transparentFraction": 0.9385243055555555,
+      "softEdgePixels": 13625,
+      "meaning": "Alpha transport agreement only; not person-segmentation accuracy"
+    },
+    "lifecycle": {
+      "wrongSessionReturns404": true,
+      "wrongOriginRejected": true,
+      "shutdownWithActiveViewerAndIdleSocketMs": 333,
+      "workerStopped": true,
+      "serverStopped": true,
+      "scope": "Actual GPU worker and local transport; no camera capture or OBS changes."
+    },
+    "productionIntegrated": false,
+    "normalAppToggleUnchanged": true,
+    "criteria": {
+      "physicalSourceToOBS": "verified",
+      "softAlphaTransport": "exact final-frame agreement",
+      "24DeliveredFps": "not met",
+      "sub100msDelay": "not met; even lower-bound p95 is 140 ms",
+      "OBSRendering": "30 FPS, zero skipped frames over 20 seconds",
+      "AsphaltAndConcurrency": "not tested",
+      "representativeMotionQuality": "not validated on live camera",
+      "cleanup": "OBS independently audited intact; old server needed assisted closure. Corrected lifecycle passed separately."
+    },
+    "resourceState": "All native workers and probe servers stopped. OBS remains open on the original scene, virtual camera restored; no stream/recording started.",
+    "recoveryFindings": [
+      "Old HTTP keep-alive socket prevented automatic test-server shutdown; assisted closure was required.",
+      "An overlapping next test caused a prior final scene readback to fail. The new OS-owned loopback guard covers cleanup too.",
+      "Corrected lifecycle explicitly closes owned sockets and stopped in 333 ms with a viewer and idle socket."
+    ],
+    "verification": {
+      "existingSuite": "109/110 passed in sandbox; the sole failure was EACCES to a loopback test server. That single protocol test passed with loopback networking allowed.",
+      "newChecks": "Native worker+server lifecycle, wrong-origin rejection, invalid-path rejection, source-to-OBS alpha agreement, independent OBS restoration audit"
+    },
+    "nextAction": "Replace screenshot polling and separate renderer transport with a direct native capture/filter path before production integration. Then test actual Asphalt gameplay and posed movement; do not add more codecs or UI polish."
+  },
+  "nativeDirectFilter": {
+    "startedAt": "2026-11-01T08:26:13Z",
+    "completedAt": "2026-11-01T09:25:22.742Z",
+    "userLimitMinutes": 60,
+    "status": "implemented_installed_and_local_controls_verified",
+    "architecture": "Native C OBS GPU video filter, private ONNX Runtime DirectML, latest-frame worker; no Python, snapshot polling, JPEG, Browser Source or webcam ownership handoff in the active path.",
+    "source": "native/scenesense-matting.c",
+    "filterKind": "scenesense_native_matting",
+    "filterName": "SceneSense Native Cutout",
+    "model": "Official RVM MobileNetV3 FP32, 640x360, ratio .5",
+    "measurements": {
+      "settings": {
+        "frame_age_ms": 32,
+        "native_active": true,
+        "native_status": "ready",
+        "processed_frames": 260,
+        "processing_ms": 32,
+        "ratio": 0.5
+      },
+      "processedFps": 28.580761064837496,
+      "obsFps": 30.000000300000007,
+      "skipped": 0,
+      "scope": "Native filter attached directly to Webcam; frame age starts at the filter readback, not camera exposure."
+    },
+    "controls": {
+      "originalVerified": true,
+      "nativeVerified": true,
+      "transformUnchanged": true,
+      "state": {
+        "status": "ready",
+        "enabled": true,
+        "source": "Webcam",
+        "nativeAvailable": true,
+        "exists": true,
+        "engine": "native",
+        "nativeStatus": "ready",
+        "processingMs": 15,
+        "frameAgeMs": 32,
+        "message": "Native GPU cutout enabled."
+      }
+    },
+    "higherDetailTrial": {
+      "ratio": 0.6,
+      "processedFps": 9.75,
+      "settings": {
+        "frame_age_ms": 156,
+        "native_active": true,
+        "native_status": "ready",
+        "processed_frames": 4657,
+        "processing_ms": 94,
+        "ratio": 0.6
+      }
+    },
+    "decision": "Keep ratio .5. Higher-detail .6 was approximately 10 updates/s with 94 ms processing and was reverted.",
+    "checks": "110/110 regression tests passed; TypeScript/Vite build passed; actual OBS Original/Native adapter and unchanged transform verified.",
+    "limits": [
+      "Processing/frame-age measurements start inside the filter and exclude camera exposure and final display.",
+      "Short local webcam probe; no full posed movement, sustained gaming, thermal or voice/watching concurrency acceptance.",
+      "Hair fringes and low-quality camera detail remain; no green-screen-equivalence percentage.",
+      "Native plugin is a local unsigned prototype, not a release installer."
+    ],
+    "paidApiCalls": 0,
+    "activeState": "Native filter enabled; legacy owned removal disabled; existing webcam source/IDs/transforms retained."
+  },
+  "nativeContinuityFollowup": {
+    "completedAt": "2026-11-01T10:36:10.588Z",
+    "trigger": "User second recording: cutout intermittently disappears to black despite previous sparse screenshots passing.",
+    "cause": "250 ms age threshold removed the cutout during processing/capture delays; output-lock cache fix alone did not address this.",
+    "changes": [
+      "Keep cached cutout visible across processing deadlines; report stalled separately.",
+      "Capture at most once per OBS video tick.",
+      "Honor native stalled status instead of masking it with saved processed-frame counts.",
+      "Require fresh output when enabling, including frame counter reset across OBS restarts."
+    ],
+    "verification": {
+      "fixture": "First eight seconds of previously authorized local webcam clip, looped through temporary OBS media source with identical native filter.",
+      "frames": 451,
+      "emptyCutoutFrames": 0,
+      "obsFps": 30.000000300000007,
+      "skipped": 0,
+      "maxSampledFrameAgeMs": 406,
+      "processedFrameCount": [
+        15,
+        477
+      ],
+      "originalSceneRestored": true,
+      "temporarySceneRemoved": true,
+      "tests": "124-test regression suite passed; expanded 13-test webcam adapter suite passed after final changes, including two new regression cases",
+      "build": "passed",
+      "normalControls": {
+        "originalVerified": true,
+        "nativeVerified": true,
+        "transformUnchanged": true,
+        "state": {
+          "status": "ready",
+          "enabled": true,
+          "source": "Webcam",
+          "nativeAvailable": true,
+          "exists": true,
+          "engine": "native",
+          "nativeStatus": "ready",
+          "processedFrames": 31839,
+          "processingMs": 31,
+          "frameAgeMs": 63,
+          "message": "Native GPU cutout enabled."
+        }
+      }
+    },
+    "diagnosticHistory": [
+      "First continuous live probe failed startup because a saved frame counter exceeded the restarted worker count; comparison corrected.",
+      "Next live capture was all empty: raw webcam inspection confirmed nobody in view, so it cannot assess continuity. Replaced by the saved fixture test.",
+      "Earlier virtual-camera capture was in Original mode and was not treated as cutout evidence."
+    ],
+    "limits": [
+      "Every fixture output frame checked for missing subject; not a matched replay of the newly supplied recording.",
+      "Holding a stale result prevents a blink but can briefly freeze motion; a permanently stalled worker remains a failure.",
+      "Live movement/gameplay acceptance remains required."
+    ],
+    "receipt": ".artifacts/native-blink-followup/continuity-results.json"
+  },
+  "nativeBufferingPass": {
+    "completedAt": "2026-11-01T11:08:19.630Z",
+    "status": "implemented_installed_matched_clip_and_local_webcam_controls_verified",
+    "orderedChanges": [
+      "Separate input/output locks; input double-buffer and output triple-buffer pointer ownership; consume before waking worker.",
+      "Two GPU staging surfaces: map previous tick before submitting current copy; preserve capture timestamp.",
+      "Upload output texture only on new output sequence.",
+      "Before/after 15-second continuous clip, per-frame disappearance/near-repeat checks, real webcam off/on/off timings and control restoration."
+    ],
+    "unchangedQuality": {
+      "model": "RVM MobileNetV3 FP32",
+      "input": [
+        640,
+        360
+      ],
+      "downsampleRatio": 0.5
+    },
+    "before": {
+      "frames": 451,
+      "missingCutouts": 0,
+      "longestNearlyRepeatedRun": 24,
+      "sampledFrameAgeMedianMs": 110,
+      "sampledFrameAgeP95Ms": 406,
+      "sampledFrameAgeMaxMs": 406,
+      "obsFps": 30.000000300000007,
+      "skipped": 0
+    },
+    "after": {
+      "frames": 451,
+      "missingCutouts": 0,
+      "longestNearlyRepeatedRun": 2,
+      "sampledFrameAgeMedianMs": 63,
+      "sampledFrameAgeP95Ms": 110,
+      "sampledFrameAgeMaxMs": 110,
+      "obsFps": 30.000000300000007,
+      "skipped": 0
+    },
+    "nativeDiagnostics": {
+      "at": 1793531094758,
+      "frame_age_ms": 62,
+      "frame_age_p95_ms": 109,
+      "max_frame_age_ms": 2954,
+      "max_readback_ms": 16,
+      "max_repeated_ticks": 1,
+      "native_active": true,
+      "native_build": "buffered-handoff-v2",
+      "native_status": "ready",
+      "processed_frames": 471,
+      "processing_ms": 16,
+      "ratio": 0.5,
+      "readback_ms": 0,
+      "rendered_ticks": 470,
+      "texture_uploads": 447,
+      "enabled": true
+    },
+    "checks": {
+      "tests": 133,
+      "nativeCompilation": "passed at all three stages",
+      "normalControls": {
+        "originalVerified": true,
+        "nativeVerified": true,
+        "transformUnchanged": true,
+        "state": {
+          "status": "ready",
+          "enabled": true,
+          "source": "Webcam",
+          "nativeAvailable": true,
+          "exists": true,
+          "engine": "native",
+          "nativeStatus": "ready",
+          "processedFrames": 16,
+          "processingMs": 32,
+          "frameAgeMs": 78,
+          "message": "Native GPU cutout enabled."
+        }
+      },
+      "originalSceneRestored": true,
+      "temporaryScenesRemoved": true
+    },
+    "limits": [
+      "Short matched fixture on one laptop; not gameplay, long-session, or full camera-exposure-to-screen acceptance.",
+      "Near-identical images use gray-frame difference threshold .05; still poses and encoder changes affect the proxy.",
+      "Old sampled age starts after synchronous readback; new age includes the previous-tick staging interval.",
+      "A native diagnostic maximum of 2954 ms was observed during startup/first-inference warmup; steady-state sampled age was 63 ms median and 110 ms p95.",
+      "Holding old output during a permanent stall can still freeze it; this change reduces delivery contention rather than removing that explicit recovery limitation."
+    ],
+    "resources": {
+      "paidApiCalls": 0,
+      "previousDll": ".artifacts/native-latency/previous.dll"
+    },
+    "currentState": "OBS loaded buffered-handoff-v2; normal webcam native filter left enabled; transform unchanged."
+  }
+}

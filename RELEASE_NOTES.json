@@ -1,0 +1,329 @@
+[
+  {
+    "id": "studio-redesign",
+    "items": [
+      "A redesigned Studio with a large OBS preview and webcam controls alongside it.",
+      "Separate Voice, Connections and Activity workspaces."
+    ]
+  },
+  {
+    "id": "saved-connections",
+    "items": [
+      "Save an encrypted OBS preset and reconnect automatically at startup.",
+      "Load voice API keys from your local .env file."
+    ]
+  },
+  {
+    "id": "voice-fast-commands",
+    "items": [
+      "Exact webcam placement, size, undo and restore commands skip the second cloud interpretation request."
+    ]
+  },
+  {
+    "id": "restart-updates",
+    "items": [
+      "Rebuild and restart SceneSense from the app header.",
+      "See whether the restart installed local changes or the app was already up to date."
+    ]
+  },
+  {
+    "id": "update-release-notes",
+    "items": [
+      "See a What’s new list after an update, showing changes added since the previous build."
+    ]
+  },
+  {
+    "id": "pixel-update-bubble",
+    "items": [
+      "Restart status now appears in a pixelated comic bubble anchored to the restart button.",
+      "Typewriter text includes release notes, with Show all, Close and reduced-motion support."
+    ]
+  },
+  {
+    "id": "smooth-update-bubble",
+    "items": [
+      "Update bubbles now have a thin border, rounded corners and a smooth pointer instead of pixelated edges."
+    ]
+  },
+  {
+    "id": "named-obs-presets",
+    "items": [
+      "Save multiple OBS presets with names and switch between them from a dropdown.",
+      "Rename a preset without reentering its encrypted password, and choose one preset for startup reconnect.",
+      "Existing saved connections are preserved as My OBS studio."
+    ]
+  },
+  {
+    "id": "voice-shortcut-live-decisions",
+    "items": [
+      "Ctrl+Shift+Z now explains missing setup and has a keyboard fallback while SceneSense is focused.",
+      "Every voice action now uses OpenAI Decisions, including placement, size, undo and restore.",
+      "Improved handling of partial speech avoids repeatedly cancelling valid requests.",
+      "See voice feedback in Studio, plus keyboard, audio, transcription and action diagnostics in Voice."
+    ]
+  },
+  {
+    "id": "voice-orb-desktop-notch",
+    "items": [
+      "A floating voice notch with the Libraries.dev orb appears above other apps while you speak.",
+      "The notch shows connecting, listening, finishing and brief success or error states without stealing focus or mouse clicks.",
+      "The Voice screen now uses the same animated orb indicator."
+    ]
+  },
+  {
+    "id": "scene-awareness-preview",
+    "items": [
+      "Check a game frame for important information hidden by the webcam, with an evidence image and suggested placement.",
+      "Optional watching can suggest changes or move after two matching checks; voice and manual controls take priority.",
+      "Image checks use cropped game regions, reject stale layouts and stop when sources change."
+    ]
+  },
+  {
+    "id": "sense-mech-avatar",
+    "items": [
+      "Sense now uses the animated 32px Libraries.dev Mech avatar, with a working state during scene analysis."
+    ]
+  },
+  {
+    "id": "mobile-transcription-glow",
+    "items": [
+      "The transcription display now uses the Mobile voice glow, reacting to held speech and sweeping while the command finishes."
+    ]
+  },
+  {
+    "id": "sense-live-point-explain",
+    "items": [
+      "Sense now points at possible obstructions in the OBS preview, explains suggestions and previews camera moves using the 32px Mech avatar.",
+      "Apply, keep the current position, or undo Sense’s last move. Expired and changed layouts are rejected.",
+      "Shorter interface copy throughout, with voice timings and longer explanations tucked into expandable details."
+    ]
+  },
+  {
+    "id": "sense-app-voice-controls",
+    "items": [
+      "Control watching, scene checks, Sense suggestions, app navigation, previews and setup actions through dictation. Saying Sense is optional.",
+      "Select saved presets, sources and microphones by their displayed names. Find the full list under Voice commands.",
+      "App actions wait for final speech after key release; webcam placement remains responsive during speech. Fresh Sense suggestions survive voice handoff."
+    ]
+  },
+  {
+    "id": "sense-listening-notch",
+    "items": [
+      "A slightly larger desktop voice notch now shows the animated 32px Sense Mech while listening. Finishing and applied states retain their orb animations."
+    ]
+  },
+  {
+    "id": "dark-theme-offline-preview",
+    "items": [
+      "A dark theme with a saved light/dark switch, including Sense bubbles, forms and voice effects.",
+      "The disconnected OBS preview uses a static placeholder; the image-loading animation was removed after a reported freeze.",
+      "Switch themes by voice with dark theme, light theme, or toggle theme."
+    ]
+  },
+  {
+    "items": [
+      "Removed the disconnected-preview animation and its graphics initialization after a reported app freeze.",
+      "Dark mode and all existing OBS and voice controls remain available."
+    ],
+    "id": "static-preview-recovery"
+  },
+  {
+    "id": "continuous-actions-and-annotations",
+    "items": [
+      "Hands-free voice executes complete commands after a short speech pause and keeps listening for the next instruction.",
+      "Use Annotate to select an app element, save a change request locally, and export feedback for Codex."
+    ]
+  },
+  {
+    "id": "copy-annotation-json",
+    "items": [
+      "Copy annotation feedback as JSON directly to your clipboard, or download it as before."
+    ]
+  },
+  {
+    "id": "theme-switch",
+    "items": [
+      "Dark mode now uses an accessible sliding toggle switch in the header."
+    ]
+  },
+  {
+    "id": "native-feedback-clipboard",
+    "items": [
+      "Annotation copying now uses the native desktop clipboard.",
+      "The theme switch label follows the active light or dark mode."
+    ]
+  },
+  {
+    "id": "obstruction-diagnostics",
+    "items": [
+      "Sense distinguishes uncertain detection from a detected obstruction with no clear destination.",
+      "Expand decision details to inspect current obstruction and candidate-corner scores.",
+      "Game analysis explicitly recognizes selectable event cards and partial menu overlap."
+    ]
+  },
+  {
+    "id": "expanded-smooth-placements",
+    "items": [
+      "Sense searches eight edge positions at current, 75% and 60% size, with a minimum size for smaller candidates.",
+      "Preview the exact suggested position and size before approving new placements.",
+      "Position and size transitions animate together in OBS, with external-change detection and exact undo."
+    ]
+  },
+  {
+    "id": "reviewable-obstruction-suggestions",
+    "items": [
+      "Possible obstructions can offer a placement preview at 70% confidence.",
+      "Automatic movement still requires 90% obstruction confidence; lower-confidence suggestions require approval."
+    ]
+  },
+  {
+    "id": "partial-overlap-detail",
+    "items": [
+      "Game analysis uses a sharper 1280px snapshot and explicitly checks partial overlap with text, icons and controls.",
+      "Suggestion confidence starts at 70%; automatic movement retains its 90% threshold."
+    ]
+  },
+  {
+    "id": "clearest-four-corners",
+    "items": [
+      "Sense now searches only the four corners at supported sizes and ranks qualifying placements by the lowest obstruction score.",
+      "If no corner is sufficiently clear, the webcam stays unchanged."
+    ]
+  },
+  {
+    "id": "corner-first-screen-search",
+    "items": [
+      "Sense prioritizes clear corner placements, then searches a 5 × 5 canvas grid at supported webcam sizes.",
+      "Interior placements require preview approval; fallback image requests run in bounded batches."
+    ]
+  },
+  {
+    "id": "larger-preview-sense",
+    "items": [
+      "Sense appears twice as large in the preview suggestion overlay."
+    ]
+  },
+  {
+    "id": "automatic-microphone-preparation",
+    "items": [
+      "Voice microphone prepares automatically at startup once API configuration is loaded.",
+      "The selected microphone is remembered, with an option to disable automatic preparation. Audio uploads only during voice dictation."
+    ]
+  },
+  {
+    "id": "sense-startup-greeting",
+    "items": [
+      "Sense welcomes you from the desktop notch with a time-aware comic bubble and a playful greeting.",
+      "Greetings dismiss after eight seconds and yield immediately to voice dictation."
+    ]
+  },
+  {
+    "id": "themed-startup-bubble",
+    "items": [
+      "Sense’s startup comic bubble matches the saved app theme and updates when you switch between dark and light mode."
+    ]
+  },
+  {
+    "id": "clear-corner-brand",
+    "items": [
+      "Clear Corner is now SceneSense’s logo in the header, favicon and desktop window icon."
+    ]
+  },
+  {
+    "id": "light-theme-logo-tile",
+    "items": [
+      "Light mode uses the white Clear Corner mark on its purple rounded-square tile."
+    ]
+  },
+  {
+    "id": "voice-guide-and-playful-greetings",
+    "items": [
+      "Voice now includes a searchable guide with example commands for all registered Sense capabilities and webcam controls.",
+      "Startup bubbles include playful meme-inspired lines; the time-of-day greeting still follows local time."
+    ]
+  },
+  {
+    "id": "voice-reactive-notch",
+    "items": [
+      "The desktop notch now uses the same sound-reactive Voice glow as the transcription panel, driven by the existing microphone meter.",
+      "Finishing retains its orb and adds the processing beam; greeting bubbles stay quiet."
+    ]
+  },
+  {
+    "id": "conversational-sense",
+    "items": [
+      "Enable Conversational Sense on the Voice page for natural text replies in the notch and app.",
+      "The remembered toggle can disable chat replies without disabling commands or startup greetings.",
+      "Replies use OpenAI text generation, with session-only conversation context and no tool access."
+    ]
+  },
+  {
+    "id": "live-gaming-news",
+    "items": [
+      "Ask Sense for gaming, Twitch and industry news using live web search through your existing OpenAI key.",
+      "News briefings include clickable source citations, requested dates and a checked timestamp on the Voice page.",
+      "Gaming headlines, Twitch updates and industry news shortcuts are available beside conversational controls."
+    ]
+  },
+  {
+    "id": "persistent-news-progress-and-summary",
+    "items": [
+      "The notch stays visible with searching or thinking feedback while Sense works.",
+      "Long answers show a short summary in the comic bubble, with an Open Voice button for the complete result and sources."
+    ]
+  },
+  {
+    "id": "liquid-glass-startup",
+    "items": [
+      "Clear Corner opens with the installed ReactDrops Liquid Glass Logo entrance, ending on the original mark alone against black.",
+      "Reduced motion and unsupported graphics use a static logo; a separate-window timeout protects access to the app.",
+      "Sense’s greeting follows the startup sequence."
+    ]
+  },
+  {
+    "id": "themed-startup-background",
+    "items": [
+      "The launch animation and fallback use white in light mode and black in dark mode, matching your saved app theme."
+    ]
+  },
+  {
+    "id": "chromatic-connect-studio",
+    "items": [
+      "Connect your studio in the disconnected preview now uses the ReactDrops Chromatic Button with spectrum reflections, spotlight hover and blur-up entrance."
+    ]
+  },
+  {
+    "id": "topographic-app-background",
+    "items": [
+      "Animated Topographic Flow behind the app tiles, with light and dark colors, pointer interaction, and reduced-motion support."
+    ]
+  },
+  {
+    "id": "sense-first-time-tour",
+    "items": [
+      "First-time visitors can take a Sense-guided, point-and-explain tour of Studio, Connections, Voice, watching, Activity, theme and updates.",
+      "Skip, go back or replay the tour anytime using Tour. Tour pointers never run app commands."
+    ]
+  },
+  {
+    "id": "sense-showcase-hands",
+    "items": [
+      "Sense now uses Showcase Pointer for webcam obstruction explanations and proposed placements, matching the guided tour.",
+      "The pointer indicates the blocked area, then moves to the suggested placement during preview. Pointing never triggers OBS actions."
+    ]
+  },
+  {
+    "id": "topographic-no-hover",
+    "items": [
+      "Topographic Flow keeps its ambient animation without reacting to the cursor."
+    ]
+  },
+  {
+    "id": "webcam-background-removal",
+    "items": [
+      "Remove your webcam background locally through the OBS Background Removal plugin, or switch back to Original in Studio.",
+      "Say ‘Remove my webcam background’ or ‘Restore my webcam background’. Webcam position and size stay unchanged.",
+      "Plugin checks and setup guidance explain missing installations and avoid changing other background-removal filters."
+    ]
+  }
+]

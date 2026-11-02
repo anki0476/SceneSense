@@ -1,0 +1,24 @@
+/* RailSetu-v2 tactile cap/base, adapted to SceneSense's theme and native buttons.
+   Reference: github.com/anki0476/RailSetu-v2/app/components/tactile-glare-link.tsx */
+.sense-tactile-wrap{--tactile-depth:5px;--glare-opacity:.32;position:relative;display:inline-flex;padding-bottom:var(--tactile-depth);isolation:isolate;max-width:100%;vertical-align:middle}
+.sense-tactile-base{position:absolute;inset:0 0 var(--tactile-depth) 0;z-index:-1;border-radius:999px;background:color-mix(in srgb,var(--color-accent) 28%,#17111f);transform:translateY(var(--tactile-depth));box-shadow:0 8px 18px #0002}
+button.sense-tactile-cap{position:relative;overflow:hidden;transform:translateY(0);transition:transform .34s cubic-bezier(.16,1.28,.32,1),box-shadow .28s ease,filter .28s ease}
+button.sense-tactile-cap:hover:not(:disabled){transform:translateY(-2px);filter:brightness(1.035)}
+button.sense-tactile-cap:active:not(:disabled){transform:translateY(var(--tactile-depth));box-shadow:0 2px 5px #0002;transition-duration:.055s}
+button.sense-tactile-cap::before{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;background:linear-gradient(-30deg,transparent 38%,#fff0 48%,rgba(255,255,255,var(--glare-opacity)) 56%,#ffffff14 63%,transparent 72%);background-size:260% 260%;background-position:-130% -130%;transition:background-position .72s cubic-bezier(.2,.72,.25,1)}
+button.sense-tactile-cap:hover:not(:disabled)::before,button.sense-tactile-cap:focus-visible::before{background-position:130% 130%}
+.sense-tactile-wrap.is-disabled{--tactile-depth:2px}.sense-tactile-wrap.is-disabled .sense-tactile-base{background:var(--color-rule);box-shadow:none}
+.voice-launcher>.sense-tactile-wrap{width:100%}.voice-launcher>.sense-tactile-wrap>button{width:100%}
+@media(prefers-reduced-motion:no-preference){button.sense-tactile-cap:active:not(:disabled),button.sense-tactile-cap:focus-visible{will-change:transform}}
+@media(prefers-reduced-motion:reduce){button.sense-tactile-cap,button.sense-tactile-cap::before{transition:none}button.sense-tactile-cap:hover:not(:disabled),button.sense-tactile-cap:active:not(:disabled){transform:none}}
+/* Keep these annotated controls matte while preserving their tactile depth. */
+.webcam-controls .sense-tactile-cap::before,
+.voice-launcher .sense-tactile-cap::before,
+.layout-assist .sense-tactile-cap::before{content:none}
+/* Opaque cap makes the source-selection button distinct from its raised base. */
+.webcam-controls .sense-tactile-wrap{--tactile-depth:7px}
+.webcam-controls button.sense-tactile-cap.text-button{background:var(--color-paper-3);border:1px solid var(--color-rule);color:var(--color-focus);box-shadow:inset 0 1px 0 color-mix(in srgb,var(--color-ink) 10%,transparent)}
+.webcam-controls button.sense-tactile-cap.text-button:hover{background:var(--color-paper-3)}
+.webcam-controls .sense-tactile-base{background:color-mix(in srgb,var(--color-accent) 55%,#17111f);box-shadow:0 5px 10px #0003}
+#connections-view .sense-tactile-cap::before{content:none}
+.preset-controls button.sense-tactile-cap.quiet{background:var(--color-paper-2);border:1px solid var(--color-rule)}

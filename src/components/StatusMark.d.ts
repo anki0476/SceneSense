@@ -1,0 +1,1 @@
+import type {ComponentType} from "react";declare const component:ComponentType<Record<string,any>>;export default component;

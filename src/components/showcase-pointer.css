@@ -1,0 +1,295 @@
+/*!
+ReactDrops Component License 1.0
+
+Copyright (c) 2026 ReactDrops
+
+1. Scope and definitions
+
+This license applies to ReactDrops software and associated documentation that
+expressly carry this license or are distributed under a LICENSE file containing
+it (the "Software"). "Licensor" means the copyright holder granting rights in
+the Software, and only to the extent that holder has authority to grant them.
+"You" means the individual or entity exercising these rights.
+
+An "End Product" is a website, application, service, or other finished project
+whose primary purpose is something other than providing reusable components,
+source code, templates, or development assets to others.
+
+2. Permitted uses
+
+Subject to this license, Licensor grants You a worldwide, non-exclusive,
+royalty-free license to use, copy, modify, and incorporate the Software into
+unlimited personal, internal, and commercial End Products. You may charge for
+End Products, subscriptions, development services, and work for clients.
+
+You may distribute the Software as an integrated part of an End Product,
+including in browser-delivered JavaScript. You may provide End Product source
+code to a client, and share the Software with employees and contractors who
+need it to develop or maintain End Products. Those recipients may use the
+Software for those purposes subject to this license. This permission does not
+authorize them to redistribute the Software as a reusable development asset.
+
+3. Restricted redistribution
+
+Unless You obtain separate written permission from Licensor, You may not sell,
+sublicense, publish, share, or otherwise redistribute the Software, or a
+substantial portion of it, whether unchanged or modified:
+
+(a) as a standalone component, component library, UI kit, source-code bundle,
+    registry, or other collection of reusable development assets;
+(b) as part of a theme, template, starter project, or similar product offered
+    to multiple recipients for reuse in their own projects; or
+(c) through a builder or generation service that offers the Software as
+    reusable blocks or source-code exports for others' projects.
+
+These restrictions apply to paid and free redistribution. Renaming, restyling,
+repackaging, translating, or modifying the Software does not remove them.
+Building separate finished websites or applications for multiple clients is
+permitted; offering a reusable template or kit containing the Software is not.
+
+Public source-code hosting by Licensor is not permission to republish the
+Software under another license. This license does not override any separate
+rights granted directly by Licensor or applicable code-hosting terms.
+
+4. Notices and ownership
+
+Retain this license and applicable copyright and third-party notices in source
+copies of the Software and permitted source distributions. No visible credit
+or ReactDrops logo is required in an End Product's user interface.
+
+Licensor retains ownership of its Software. You retain rights in Your own
+contributions, subject to the license for any incorporated Software. No rights
+to trademarks, trade names, or logos are granted by this license.
+
+5. Third-party materials and separate grants
+
+Dependencies, fonts, images, videos, and other third-party materials remain
+subject to their respective licenses. Separately identified third-party code
+is licensed under its stated terms, and these restrictions do not limit rights
+granted by its copyright holders. Retain all required third-party notices.
+Demo media are not licensed by this document; obtain Your own permission or
+replace them with media You are entitled to use.
+
+This license does not revoke rights granted under other valid licenses. It does
+not assert ownership of third-party work or grant rights Licensor lacks.
+
+6. Termination
+
+The permissions granted here continue unless terminated for a material breach.
+If You fail to cure a material breach within 30 days after receiving written
+notice from Licensor, Your permissions terminate. On termination, cease uses
+and distributions requiring this license. Rights under independently granted
+licenses and rights that applicable law does not allow to be restricted remain
+unaffected. Sections 3 through 7 survive termination.
+
+7. Disclaimer
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE, TITLE, AND NON-INFRINGEMENT. TO THE MAXIMUM EXTENT
+PERMITTED BY APPLICABLE LAW, LICENSOR AND CONTRIBUTORS SHALL NOT BE LIABLE FOR
+ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN CONTRACT, TORT, OR OTHERWISE,
+ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+This license does not limit rights or exceptions that applicable law makes
+non-waivable. No other permissions are granted by implication.
+*/
+
+.showcase-pointer {
+  position: relative;
+  isolation: isolate;
+}
+
+.showcase-pointer-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 20;
+  overflow: hidden;
+  pointer-events: none;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.showcase-pointer-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  transform: translate3d(var(--cursor-x, 0), var(--cursor-y, 0), 0);
+  will-change: transform;
+}
+
+.showcase-pointer-cursor-body {
+  opacity: 0;
+  transform: scale(calc(var(--showcase-pointer-cursor-scale, 1) * 0.6));
+  transform-origin: 0 0;
+  transition:
+    opacity 220ms ease-out,
+    transform 260ms ease-out;
+}
+
+.showcase-pointer-cursor[data-visible] .showcase-pointer-cursor-body {
+  opacity: 1;
+  transform: scale(var(--showcase-pointer-cursor-scale, 1));
+  transition: none;
+  animation: showcase-pointer-cursor-enter 460ms cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes showcase-pointer-cursor-enter {
+  from {
+    opacity: 0;
+    transform: scale(calc(var(--showcase-pointer-cursor-scale, 1) * 0.4));
+  }
+}
+
+.showcase-pointer-cursor-arrow {
+  position: absolute;
+  /* The arrow tip sits on the cursor position. */
+  top: -4px;
+  left: -5px;
+  display: block;
+  overflow: visible;
+  transform-origin: 5px 4px;
+  filter: drop-shadow(0 1px 1.5px rgb(0 0 0 / 22%)) drop-shadow(0 3px 6px rgb(0 0 0 / 14%));
+  transition: transform 140ms cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.showcase-pointer-cursor[data-pressed] .showcase-pointer-cursor-arrow {
+  transform: scale(0.86);
+}
+
+.showcase-pointer-cursor-arrow-edge {
+  fill: #fff;
+  stroke: #fff;
+  stroke-width: 5;
+  stroke-linejoin: round;
+}
+
+.showcase-pointer-cursor-arrow-fill {
+  fill: var(--showcase-pointer-cursor-color);
+  stroke: var(--showcase-pointer-cursor-color);
+  stroke-width: 1.4;
+  stroke-linejoin: round;
+}
+
+.showcase-pointer-cursor-label-anchor {
+  position: absolute;
+  top: 27px;
+  left: 19px;
+  transform: translate3d(var(--label-dx, 0), var(--label-dy, 0), 0);
+  will-change: transform;
+}
+
+.showcase-pointer-cursor-label {
+  position: relative;
+  display: inline-flex;
+  overflow: hidden;
+  box-sizing: border-box;
+  padding: 0.32em 0.66em 0.36em;
+  border-radius: 0.6em;
+  background: var(--showcase-pointer-cursor-color);
+  box-shadow:
+    0 1px 2px rgb(0 0 0 / 14%),
+    0 4px 12px -2px color-mix(in srgb, var(--showcase-pointer-cursor-color) 45%, transparent);
+  color: var(--showcase-pointer-cursor-text, #fff);
+  font:
+    600 14px/1.25 ui-sans-serif,
+    system-ui,
+    -apple-system,
+    'Segoe UI',
+    sans-serif;
+  letter-spacing: -0.005em;
+  white-space: nowrap;
+  transform-origin: 0 0;
+  animation: showcase-pointer-cursor-label-enter 520ms cubic-bezier(0.34, 1.56, 0.64, 1) both;
+}
+
+@keyframes showcase-pointer-cursor-label-enter {
+  from {
+    opacity: 0;
+    transform: scale(0.5);
+  }
+}
+
+.showcase-pointer-cursor-label-text {
+  display: inline-block;
+  perspective: 12em;
+}
+
+.showcase-pointer-cursor-label-text[data-layer='out'] {
+  position: absolute;
+  top: 0.32em;
+  left: 0.66em;
+}
+
+.showcase-pointer-cursor-char {
+  display: inline-block;
+  white-space: pre;
+  transform-origin: 50% 50% -0.55em;
+  backface-visibility: hidden;
+}
+
+.showcase-pointer-cursor-label-mask {
+  display: inline-block;
+  overflow: hidden;
+  margin: -0.12em;
+  padding: 0.12em;
+  vertical-align: bottom;
+}
+.showcase-pointer-cursor-label-mask > span {
+  display: inline-block;
+}
+
+.showcase-pointer-cursor-ripple {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 46px;
+  height: 46px;
+  border: 2px solid var(--showcase-pointer-cursor-color);
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--showcase-pointer-cursor-color) 18%, transparent);
+  opacity: 0;
+  pointer-events: none;
+}
+
+.showcase-pointer-cursor-selection {
+  position: absolute;
+  inset: 0;
+}
+
+.showcase-pointer-cursor-highlight {
+  position: absolute;
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--showcase-pointer-cursor-color) 26%, transparent);
+  box-shadow: inset 0 -1.5px 0 color-mix(in srgb, var(--showcase-pointer-cursor-color) 70%, transparent);
+}
+
+.showcase-pointer-cursor-marquee {
+  position: absolute;
+  border: 1px solid var(--showcase-pointer-cursor-color);
+  border-radius: 2px;
+  background: color-mix(in srgb, var(--showcase-pointer-cursor-color) 10%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .showcase-pointer-cursor-body,
+  .showcase-pointer-cursor[data-visible] .showcase-pointer-cursor-body,
+  .showcase-pointer-cursor-label {
+    animation: none;
+  }
+  .showcase-pointer-cursor-arrow {
+    transition: none;
+  }
+}
+
+.showcase-pointer-cursor-trail {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

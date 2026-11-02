@@ -1,0 +1,6 @@
+const {execFile}=require('node:child_process');
+const path=require('node:path');
+const {z}=require('zod');
+const schema=z.object({action:z.enum(['dismiss_search','launch_obs','launch_game','find_game_icon','activate_game_icon','find_obs_icon','activate_obs_icon','locate','inspect','activate','set_text']),app:z.enum(['obs','game','scenesense']).optional(),control:z.string().max(200).optional(),value:z.string().max(300).optional(),gameName:z.string().max(80).optional(),processName:z.string().regex(/^[a-zA-Z0-9_. -]+$/).max(100).optional()});
+function desktopStep(input,{signal}={}){const value=schema.parse(input);if(process.platform!=='win32')throw Error('Desktop setup currently requires Windows.');return new Promise((resolve,reject)=>{execFile('powershell.exe',['-NoProfile','-NonInteractive','-File',path.join(__dirname,'setup-desktop.ps1'),'-Request',Buffer.from(JSON.stringify(value)).toString('base64')],{windowsHide:true,timeout:20000,maxBuffer:1024*1024,signal},(error,stdout)=>{try{const result=JSON.parse(stdout.trim());if(result.error)reject(Error(result.error));else if(error)reject(error);else resolve(result);}catch{reject(Error('Desktop accessibility helper did not respond.'));}});});}
+module.exports={desktopStep};

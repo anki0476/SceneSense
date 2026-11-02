@@ -1,0 +1,28 @@
+:root {
+  --color-paper:#F7F7F8; --color-paper-2:#FFFFFF; --color-paper-3:#EFEFF1;
+  --color-ink:#0E0E10; --color-ink-2:#3B3B44; --color-muted:#64646F; --color-rule:#DEDEE3;
+  --color-accent:#9147FF; --color-accent-hover:#772CE8; --color-accent-ink:#FFFFFF; --color-focus:#5C16C5;
+  --color-brand:#330C6E; --color-accent-soft:#EDE5FA; --color-preview:#0E0E10; --color-preview-text:#F7F7F8; --color-preview-muted:#ADADB8;
+  --color-success:#176344; --color-success-soft:#E8F5EF; --color-error:#A32B42; --color-error-soft:#FFF0F2; --color-warning:#735100; --color-warning-soft:#FFF4D7;
+  --color-disabled:#64646F; --color-focus-on-dark:#BF94FF; --color-transparent:transparent;
+  --font-body:'Inter Variable',Inter,sans-serif; --font-display:var(--font-body); --font-outlier:var(--font-body);
+  --space-3xs:2px; --space-2xs:4px; --space-tight:5px; --space-xs:8px; --space-sm:12px; --space-md:16px; --space-lg:24px; --space-xl:40px; --space-2xl:64px; --space-3xl:96px; --space-4xl:144px;
+  --text-xs:12px; --text-sm:13px; --text-md:14px; --text-lg:16px; --text-xl:18px; --text-2xl:24px; --text-3xl:32px;
+  --text-display:32px; --text-section:18px; --text-title:16px; --display-weight:600; --tracking-display:-.025em;
+  --radius-card:2px; --radius-input:8px; --radius-pill:9999px;
+  --container:1440px; --gutter:40px; --gap-columns:24px;
+  --dur-micro:100ms; --dur-short:100ms; --ease-in:ease-in;
+  --z-base:1; --z-sticky-nav:300; --z-tooltip:600;
+}
+
+:root[data-theme="light"]{color-scheme:light}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --color-paper:#101014;--color-paper-2:#19191f;--color-paper-3:#24242d;
+  --color-ink:#f1f0f5;--color-ink-2:#d1cfda;--color-muted:#a4a1b2;--color-rule:#36343f;
+  --color-accent:#a46bff;--color-accent-hover:#b889ff;--color-accent-ink:#110824;--color-focus:#c6a3ff;
+  --color-brand:#c6a3ff;--color-accent-soft:#302040;
+  --color-success:#74deb0;--color-success-soft:#143127;--color-error:#ff9bad;--color-error-soft:#381c28;--color-warning:#edcb80;--color-warning-soft:#352b18;
+  --color-disabled:#9692a3;
+}
+
