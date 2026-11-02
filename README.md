@@ -15,6 +15,26 @@ Requirements: Windows x64, Node.js 22.12+ and npm, OBS Studio with WebSocket v5 
 
 Alternatively, after dependencies are installed, double-click **Launch SceneSense.cmd**. `npm run dev` is only a visual browser preview and does not provide the desktop bridge for OBS, voice, or Twitch.
 
+## Setup checklist
+
+1. Install Node.js 22 LTS and OBS Studio on Windows x64.
+2. Run `npm ci`, copy `.env.example` to `.env`, and fill your API keys.
+3. Run `npm start` or open **Launch SceneSense.cmd**.
+4. OBS: add a Video Capture Device and Game Capture targeting your game. Keep webcam above game in Sources.
+5. OBS → Tools → WebSocket Server Settings: enable server and authentication. Copy password from Show Connect Info. Default port: 4455.
+6. SceneSense → Connections: enter port/password → Connect OBS.
+7. Enter a preset name → optionally enable Reconnect at startup → Save OBS preset. Use Connect saved preset later; Update/Delete manage it.
+8. Choose active scene → Load sources → select webcam/game → Confirm sources. This saves the restore layout.
+9. Voice: allow microphone access; prepare/test microphone if not ready. Hold Ctrl+Shift+Z and say “Move my webcam to the top right.”
+10. Double-tap Z with Ctrl+Shift held for hands-free listening. Repeat or click Done to stop. Commands execute as speech is interpreted.
+11. Sense: Check current frame for suggestions, or Start watching. Enable Auto-move for two-check automation. Allow webcam shrinking is separate. Preview/apply suggestions; Undo Sense Move restores the previous layout.
+12. Supervisor: choose your OBS microphone and optionally enable Local video checks. Request repairs by voice.
+13. Twitch: connect with your Public application Client ID and authorize. Send `!blocked inventory` in your channel chat; check Community signals.
+
+**Presets:** connection presets save OBS credentials. Studio → Stream setups saves named layout/audio configurations after sources are confirmed.
+
+**Demo recording:** use entire-screen/Display Capture to include the separate Sense notch. Window/Game Capture excludes other windows. Restart SceneSense after updates.
+
 ## OBS connection
 
 In OBS, enable Tools → WebSocket Server Settings → Enable WebSocket server, retaining authentication. Connect in SceneSense using the local port (normally 4455) and password. Save a named preset if desired; saved passwords use Electron safeStorage for the local Windows account.
@@ -32,6 +52,19 @@ Hold Ctrl+Shift+Z to speak. Double-tap Z while holding Ctrl+Shift to latch hands
 Register a Twitch developer application with a verified email and 2FA. Choose Public client type and Broadcaster Suite. Device-code authorization does not use a redirect callback; if the console requires a URL, an HTTPS localhost placeholder can be registered. Enter the application Client ID in SceneSense → Connections → Twitch, open authorization, and approve the user:read:chat permission.
 
 The app subscribes to the authorized account's own-channel chat using EventSub WebSockets. Send `!blocked inventory` in that channel and check Studio → Community signals. Real authorization and message delivery were verified by the creator. Reports are read-only inputs and never directly execute OBS actions. Tokens remain session-only; reconnect after restarting the app. OBS broadcast-account setup is separate from this chat integration.
+
+### Twitch setup steps
+
+1. Sign in at https://dev.twitch.tv/console/apps. Enable Twitch account 2FA under Settings → Security and Privacy if required.
+2. Register an application: unique name, category **Broadcaster Suite**, client type **Public**.
+3. If the console requires a redirect URL, enter `https://localhost:3000`. Leave no empty extra URL rows. This is only a registration placeholder: SceneSense uses device authorization, not a server at that URL.
+4. Open Manage for the registered app and copy its **Client ID**. No client secret is needed.
+5. Open the **SceneSense desktop app** → Connections → Twitch. Paste Client ID → Connect Twitch.
+6. Open the authorization link shown by SceneSense; enter/confirm the displayed device code if asked, sign into the intended creator account, and authorize chat access.
+7. Return to SceneSense and wait for Connected. Open your own Twitch channel chat and send `!blocked inventory`. Confirm it appears under Studio → Community signals.
+8. Reauthorize after restarting SceneSense; tokens are session-only. If authorization expires, start Connect Twitch again. If no report arrives, verify the authorized channel, connection status, and exact `!blocked` prefix.
+
+**Broadcasting separately:** OBS → Settings → Stream → Twitch → Connect Account. Choose your game scene, check audio, then click Start Streaming only when ready to go public. Chat integration does not start a stream. Verify playback on your Twitch channel; stop streaming after testing.
 
 ## Scene awareness
 

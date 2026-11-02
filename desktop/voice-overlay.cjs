@@ -17,7 +17,7 @@ function createVoiceOverlay({BrowserWindow,screen,ipcMain,onFinish,onOpenVoice,h
   const entry=path.join(__dirname,'..','dist','overlay.html');
   const width=340;
   const overlay=new BrowserWindow({width,height:88,show:false,frame:false,transparent:true,resizable:false,movable:false,focusable:false,skipTaskbar:true,hasShadow:false,alwaysOnTop:true,webPreferences:{preload:path.join(__dirname,'overlay-preload.cjs'),contextIsolation:true,nodeIntegration:false,sandbox:true,backgroundThrottling:false}});
-  overlay.setAlwaysOnTop(true,'screen-saver');overlay.setIgnoreMouseEvents(true);overlay.setContentProtection(true);
+  overlay.setAlwaysOnTop(true,'screen-saver');overlay.setIgnoreMouseEvents(true);overlay.setContentProtection(false);
   overlay.setVisibleOnAllWorkspaces(true,{visibleOnFullScreen:true});
   overlay.webContents.setWindowOpenHandler(()=>({action:'deny'}));overlay.webContents.on('will-navigate',e=>e.preventDefault());
   let state=indicatorState({}),ready=false,timer,greeted=false,theme,replyTimer,lastVoice={};
