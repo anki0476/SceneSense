@@ -4,6 +4,32 @@
 
 Sense combines voice controls, webcam placement assistance, stream supervision, and Twitch community reports. This is a hackathon prototype, not a signed installer or a universal OBS repair agent.
 
+## Install with your AI coding agent
+
+Copy the prompt below into a coding agent with terminal access to download, install, and open SceneSense automatically. The agent may request installation permissions. API configuration is separate.
+
+```text
+Install and launch SceneSense on this Windows desktop.
+
+Repository: https://github.com/anki0476/SceneSense
+
+Complete the setup yourself using terminal tools; don't ask me to run commands manually.
+
+1. Read the repository README before installing.
+2. Check for Node.js 22.12+ and npm. If missing, install Node.js LTS from its official source, requesting permission only when necessary.
+3. Clone the repository into a new SceneSense folder under my user directory. Do not overwrite existing files. If already installed, inspect the checkout before updating it.
+4. Run npm ci.
+5. Create .env from .env.example only if .env does not already exist. Never overwrite credentials or print them.
+6. Build and launch the Electron desktop app using the documented commands.
+7. Verify that the SceneSense window opens. Report any failure accurately and resolve routine installation errors.
+
+API keys are not included. Do not block opening the app because keys are absent; explain afterward that AI features require API configuration.
+
+Do not start streaming or recording, change OBS settings, install the optional native background-removal filter, or request access to my Twitch account.
+
+When finished, tell me where SceneSense is installed and how to reopen it using Launch SceneSense.cmd.
+```
+
 ## Run from source
 
 Requirements: Windows x64, Node.js 22.12+ and npm, OBS Studio with WebSocket v5 (OBS 33.0.1 was used for live acceptance), and a microphone for voice commands. NVIDIA DirectML was used for native cutout testing; other hardware has not been verified.
